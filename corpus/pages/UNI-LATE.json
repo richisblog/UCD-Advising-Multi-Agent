@@ -1,0 +1,80 @@
+{
+ "id": "UNI-LATE",
+ "level": "university",
+ "unit": "university",
+ "title": "Late Actions",
+ "url": "https://catalog.ucdavis.edu/academic-information-policies-regulations/registration-course-load/late-actions/",
+ "pageTitle": "General Catalog - Late Actions",
+ "retrievedAt": "2026-11-18T22:25:04+00:00",
+ "sha256": "f6f51563db56f758d2fedff183091d2f0a3a5bccecbb3734176d032511e0d6c8",
+ "sections": [
+  {
+   "heading": "(page)",
+   "text": "Content on this page is updated throughout the academic year.\nAdding and dropping courses is governed by Davis Division Regulation 547¹.\nThe information provided below applies to published Quarter Dates & Deadlines.\nDeadlines for registration actions differ during Summer Sessions. For deadlines and refund dates, see the Summer Sessions Academic Calendar."
+  },
+  {
+   "heading": "Section Switch After the Add/Drop Deadline > Undergraduate Students",
+   "text": "If you are attempting to switch sections of the same course after the add/drop deadline, but on or before the last day of instruction, do not use a PTA and PTD; submit an Undergraduate Course Change form.\nObtain instructor permission/signature for the course you are attempting to switch enrollment.\nSubmit the completed form to the Office of the University Registrar.\nA $3.00 late schedule adjustment fee will be assessed to your account."
+  },
+  {
+   "heading": "Section Switch After the Add/Drop Deadline > Graduate Students",
+   "text": "If you are attempting to switch sections of the same course after the add/drop deadline, approval from the instructor is required to add the new section. To drop the old section of the course, approval from your program graduate advisor with signature authority and the Dean of Graduate Studies is required.\nRequest approval to add the course for the new section from the instructor. If permission is granted, the instructor or department will issue a PTA number.\nTo drop the course of the old section a graduate advisor with signature authority must endorse the Permission to Drop Petition Form. Submit the petition to drop form to the Graduate Studies for Dean's approval. If permission is granted, Graduate Studies will issue a PTD number.\nWith both valid PTA and PTD numbers, drop and add the course using Schedule Builder:\nSelect Actions for the course to be dropped.\nSelect Drop with PTD.\nEnter the 9-digit PTD number.\nSearch using the CRN to be added.\nSelect Actions and select Register with PTA.\nEnter the 9-digit PTA number.\nCheck and confirm enrollment\nA $3.00 fee for the late add will be charged to the student account."
+  },
+  {
+   "heading": "Late Add of a Course with a Permission to Add (PTA)",
+   "text": "Adding a course after the 10th day of instruction, but on or before the last day of instruction, requires instructor approval. If permission is granted, a permission to add (PTA) number will be issued by the instructor or the department. A PTA number is valid for only 72 hours after it is issued and will be revoked after the third day. PTA numbers issued within the last three days of instruction must be used by the last day of instruction.\nWith a valid PTA number, add the course using Schedule Builder:\nSearch using the CRN.\nNote: If waitlisted for a section of the course to be added, this section must be dropped before using the PTA. To drop a waitlisted course after the 10-day drop deadline, come to the Office of the University Registrar to drop the waitlisted course and process the PTA.\nPer Davis Division Regulation 547(A)¹, effective Sep 1, 2025, Last day to add courses is moved from 12th day of instruction to 10th day of instruction."
+  },
+  {
+   "heading": "Late Course Drop Information",
+   "text": "To drop a 10-day-drop course after the 10th day of instruction, or a 20-day-drop course after the 20th day of instruction, but on or before the last day of instruction, college dean's office approval is required.\nA PTD number is valid for only 72 hours after it is issued by your college dean's office representative and will be revoked after the third day. PTD numbers issued within the last three days of instruction must be used by the last day of instruction.\nRegistered students or those rolled from a waitlist who do not show up or who do not submit any work for a class will receive a failing grade. All students are responsible for reviewing their course schedule and should check and adjust their schedule accordingly during the designated registration and schedule adjustment periods.\nSchedule Builder will not allow you to drop your last class. If you are withdrawing from the University, you must file a Cancellation/Withdrawal Form with the Office of the University Registrar."
+  },
+  {
+   "heading": "Late Course Drop Information > Undergraduate Students",
+   "text": "College of Biological Sciences students can initiate the process to request permission to drop a course by accessing the Late Drop Petition available in OASIS. Students from the other colleges must initiate this process by first meeting with an advisor in their college dean's office. These forms must be submitted to the college dean's office and approved by 4 p.m. (PT) on the last day of instruction.\nIf permission is granted, the college dean's office will issue a PTD number that is viewable on the approved Late Drop Petition.\nWith a valid PTD number, drop the course using Schedule Builder:\nA $3.00 fee for the late drop will be charged to the student account."
+  },
+  {
+   "heading": "Late Course Drop Information > Graduate Students",
+   "text": "To drop a course after the deadline 10-day or 20-day drop deadline, approval of a graduate advisor with signature authority and the Dean of Graduate Studies is required.\nA graduate advisor with signature authority must endorse the Permission to Drop Petition form. Submit the form to Graduate Studies for Dean's approval. If permission is granted, Graduate Studies will issue a PTD number."
+  },
+  {
+   "heading": "Late Enrollment After the 10th Day of Instruction",
+   "text": "Students without existing enrollment by the 10th day of instruction will not be able to register for courses on Schedule Builder. The Schedule Builder registration system shuts down at this time for students not enrolled in any courses for the current term."
+  },
+  {
+   "heading": "Late Enrollment After the 10th Day of Instruction > Undergraduate Students",
+   "text": "To register in courses after the 10th day of instruction without any prior existing enrollment for the current term, submit a Current Term Readmission form to the Office of the University Registrar."
+  },
+  {
+   "heading": "Late Enrollment After the 10th Day of Instruction > Graduate Students",
+   "text": "If a student isn't enrolled in any units by the 10th day of instruction, they must apply for late enrollment via GradSphere. Once enrolled through that process, students can use PTAs to add courses; a $3 fee is applied.\nLate enrollment requests are accepted until the 25th day of instruction."
+  },
+  {
+   "heading": "Variable Unit Course Change After the 25th Day of Instruction > Undergraduate Students",
+   "text": "To change the unit value of a course after the 25th day of instruction, but on or before the last day of instruction, obtain an Undergraduate Course Change form.\nObtain instructor signature."
+  },
+  {
+   "heading": "Variable Unit Course Change After the 25th Day of Instruction > Graduate Students",
+   "text": "To change the unit value of a course after the 25th day of instruction, but on or before the last day of instruction, approval of a graduate advisor with signature authority and the dean of Graduate Studies is required.\nA graduate advisor with signature authority must approve and endorse the Variable Unit Change Petition form.\nTake the form to Graduate Studies for the Dean's approval."
+  },
+  {
+   "heading": "Late S/U Grading Options After the 25th Day of Instruction",
+   "text": "For graduate students, to modify the grading option of a course after the 25th day of instruction, but on or before the last day of instruction, approval of a graduate advisor with signature authority and the Dean of Graduate Studies is required.\nA graduate advisor with signature authority must approve and endorse the Grading Option Change Petition.\nSubmit the form to Graduate Studies for Dean's approval.\nThe completed form will be submitted to the Office of the University Registrar."
+  },
+  {
+   "heading": "Late Pass/Not Passed Option After the 40th Day of Instruction",
+   "text": "For undergraduate students, to opt for P/NP grading of a letter-graded course after the 40th day of instruction, but on or before the last day of instruction, you must obtain approval from the college Dean's office.\nLate P/NP petitions submitted by College of Engineering students after the 40th day of instruction will be denied.\nStudents must initiate this process by first meeting with an advisor in their Dean's Office.\nObtain permission and approval from your college Dean's Office.\nIf your form is approved, it will be forwarded to the Office of the University Registrar."
+  },
+  {
+   "heading": "Late Actions for Professional Program Students",
+   "text": "For late actions, contact your program office for assistance:\nGraduate School of Management\nSchool of Education\nSchool of Law\nSchool of Medicine\nSchool of Nursing\nSchool of Veterinary Medicine"
+  },
+  {
+   "heading": "Retroactive Actions After the End of the Quarter",
+   "text": "For information about making adjustments to your schedule after the last day of instruction, see Retroactive Actions."
+  },
+  {
+   "heading": "¹ Davis Division Regulation 547",
+   "text": "Davis Division Regulation 547\n547. Adding or Dropping a Course\n(A) The deadline to drop a course is the twentieth day of instruction, except for courses that a department or program has noted in the Class Search Tool to have a ten-day drop deadline. The deadline to add a course is the tenth day of instruction. Courses may be added or dropped at any time before these dates by any method mutually agreed upon by the Registrar and the Chair of the Davis Division of the Academic Senate. (Am. 5/27/93; Eff. 9/1/93; Am. 6/8/98; Eff. 9/1/99) (Am. 9/1/2025)\n(B) At any time after the add deadline and before the close of business on the last day of instruction for the term, or, for summer sessions (excluding special session) the close of business on the last day of instruction in the fifth week of the session, approval to add a course may be granted upon petition by the student and certification by the appropriate authority. Approval of such petitions may be granted only in cases where substantial evidence indicates that the student did attempt to add the course prior to the deadline, but was prevented from doing so by clerical error or other situation beyond the student’s control. The petition must be approved by the appropriate dean and, in addition, by the appropriate committee of the faculty of the student’s college or school or the appropriate subcommittee of the Graduate Council. The faculty committee may authorize an administrative officer to act on its behalf, but at least once each quarter the committee should receive and review a summary of the actions taken in its name. (Am. 9/1/2013)\n(C) At any time after the drop deadline and before the close of business on the last day of instruction for the term, or, for summer sessions (excluding special session) the close of business on the last day of instruction in the fifth week of the session, approval may be granted upon petition by the student and certification by an appropriate authority that, due to unexpected circumstances beyond the student’s control, one or more courses should be dropped. The circumstances may include illness, serious personal problems, an accident, a death in the immediate family, a large and necessary increase in working hours, or other situations deemed to be of equal gravity. The petition must be approved by the appropriate dean and, in addition, by the appropriate committee of the faculty of the student’s college or school or the appropriate subcommittee of the Graduate Council. The faculty committee may authorize an administrative officer to act on its behalf, but at least once each quarter the committee should receive and review a summary of the actions taken in its name. An undergraduate student is permitted to drop a course subsequent to the drop deadline even if doing so would reduce that student’s study list below 12 units, but such a student no longer can be certified as a full-time student. (Am. 9/1/2013)\n(D) To drop a course or withdraw from the University after close of business on the last day of instruction for the term, or, for summer sessions (excluding special session) the close of business on the last day of instruction in the fifth week of the session, the student or an appropriate faculty member must submit a petition to the Davis Division Grade Changes Committee or, for professional faculty or students in professional courses in their own professional schools, to the grade change committee of that school. Approval will be granted only in the most unusual circumstances and only in those cases where it is clear that by not approving the petition the student would be treated unfairly. (Am. 9/1/2013)"
+  }
+ ]
+}

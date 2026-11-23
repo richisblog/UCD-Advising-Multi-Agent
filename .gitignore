@@ -1,0 +1,8 @@
+node_modules/
+dist/
+results/
+corpus/raw/
+.env
+.claude/
+cordis.local.yml
+*.bak-*

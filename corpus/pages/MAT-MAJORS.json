@@ -1,0 +1,20 @@
+{
+ "id": "MAT-MAJORS",
+ "level": "department",
+ "unit": "mat",
+ "title": "Math Department: Majors (declaring)",
+ "url": "https://www.math.ucdavis.edu/undergrad/majors_minor/majors",
+ "pageTitle": "Majors :: math.ucdavis.edu",
+ "retrievedAt": "2026-11-18T22:25:35+00:00",
+ "sha256": "7c9473db64da0c52d45d9d4f86309dbe712c307212fa3921915efcc69f52544b",
+ "sections": [
+  {
+   "heading": "Majors > Sign Up For Our Newsletter > Weekly Department Newsletter",
+   "text": "Interested in getting updates about Math Department undergraduate events and opportunities?\nSend this blank email to subscribe to our weekly newsletter!\nJust click the link, fix your name in the Subject, and send! The email you send from will be subscribed.\nEmail studentservices@math.ucdavis.edu with any questions you have."
+  },
+  {
+   "heading": "Majors > Post-Graduate Job Planning",
+   "text": "The UC Davis Internship and Career Center (ICC) helps forge connections between the university and the workplace. No matter what your field of study, you can benefit from personalized career counseling and from internships that will expose you to new working environments and help develop your employment skills. Also check out the pre-graduate or pre-law advising at the Office of Educational Opportunity and Enrichment Services (OEOES)"
+  }
+ ]
+}

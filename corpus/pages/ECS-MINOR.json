@@ -1,0 +1,16 @@
+{
+ "id": "ECS-MINOR",
+ "level": "department",
+ "unit": "ecs",
+ "title": "Computer Science Minor (catalog)",
+ "url": "https://catalog.ucdavis.edu/departments-programs-degrees/computer-science-engineering/computer-science-minor/",
+ "pageTitle": "General Catalog - Computer Science, Minor",
+ "retrievedAt": "2026-11-18T22:25:20+00:00",
+ "sha256": "bff824999e3c7bee0f4ae36a2ffee415f59d9aa22a0546dbe0c8adb776098173",
+ "sections": [
+  {
+   "heading": "The Major Program",
+   "text": "The Department of Computer Science administers two majors: Computer Science & Engineering (CSE) and Computer Science (CS). It also administers two minors: Computer Science and Computational Biology. For information on the Computer Science & Engineering curriculum and the minor in Computational Biology, see Computer Science Engineering.\nThe primary differences between the CSE and CS majors are the extent of hardware coverage and curricular flexibility. The CSE major develops a solid understanding of the entire machine, including hands-on experience with its hardware components. The CS major teaches some hardware, at the digital-design level, on simulators. The CSE major has fewer free electives. The CS major's more generous electives make it easier to complete a minor or double major.\nStudents in the CS major receive a solid grounding in the fundamentals of computer languages, operating systems, computer architecture, and the mathematical abstractions underpinning computer science. Students are prepared for both industry and postgraduate study.\nCourse List\nCode | Title | Units\nChoose any three upper division Computer Science Engineering (ECS) courses 1 | 11-12\nChoose any two upper division ECS courses or any upper division course in MAT: 2 | 8-10\nEEC 100 | Circuits II\nEEC 171 | Parallel Computer Architecture\nEEC 172 | Embedded Systems\nEEC 180 | Digital Systems II\nECN 122 | Theory of Games & Strategic Behavior\nSTA 131A | Introduction to Probability Theory\nSTA 131B | Introduction to Mathematical Statistics\nSTA 141B | Data & Web Technologies for Data Analysis\nSTA 141C | Big Data & High Performance Statistical Computing\nPSC 120 | Agent-Based Modeling\nLIN 127 | Text Processing & Corpus Linguistics\nLIN 177 | Computational Linguistics\nTotal Units | 19-22\n1\nA single approved course of 3-5 units from ECS 192 or ECS 199 is allowed.\n2\nExcluding MAT 111."
+  }
+ ]
+}

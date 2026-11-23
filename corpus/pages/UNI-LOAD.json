@@ -1,0 +1,20 @@
+{
+ "id": "UNI-LOAD",
+ "level": "university",
+ "unit": "university",
+ "title": "Registration & Course Load",
+ "url": "https://catalog.ucdavis.edu/academic-information-policies-regulations/registration-course-load/",
+ "pageTitle": "General Catalog - Registration & Course Load",
+ "retrievedAt": "2026-11-18T22:25:03+00:00",
+ "sha256": "af20ce81a35bbce35863792b62b7ed014d3b0cb81edfaedc5a97c0f4b1c0d748",
+ "sections": [
+  {
+   "heading": "Registration",
+   "text": "Registration includes the process of enrolling in classes, the financial obligation to pay tuition, fees and all other charges, filing current address (mailing, permanent, and emergency) information with the Office of the University Registrar, and completing and submitting any forms pertaining to your registration status. To be a continuing student at the university, you must enroll in classes each academic term. To be considered a registered student, you must also pay all tuition, fees and any outstanding balance due.\nIf you are a new student, your acceptance letter directs you to all of the required next steps to obtain student status at the university. Graduate students who previously attended UC Davis as undergraduates are considered to be new students. If you do not enroll in classes for a future academic term or did not take an approved leave of absence, you must apply for Readmission to return to the university and resume student status.\nFor complete information, see Registration."
+  },
+  {
+   "heading": "Course Load",
+   "text": "Undergraduate students need to carry a study load of at least 12 units each quarter in order to be certified as full-time students. Unless otherwise noted for the program, graduate students must also carry a study load of at least 12 units each quarter to be certified as full-time students.\nRelated: Full-Time Status | Part-Time Status for Tuition Purposes | Academic Standing"
+  }
+ ]
+}

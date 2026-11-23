@@ -1,0 +1,6 @@
+# Pathfinder UCD · Advising Lab. One Host row serves consultation, experiment
+# and analysis RPCs; the Client half renders the right-side "Advising Lab" tab.
+# Independent of the older pathfinder-ucd / pathfinder-ucd-multi bundles.
+- insert:
+    - id: pathfinder-lab
+      name: 'dsh-plugin-pathfinder-lab'

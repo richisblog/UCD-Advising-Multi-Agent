@@ -1,0 +1,81 @@
+{
+  "name": "dsh-plugin-pathfinder-lab",
+  "version": "0.3.0",
+  "private": true,
+  "description": "Pathfinder UCD Advising Lab: single-agent vs institution-scoped multi-agent academic advising, with official UC Davis evidence, simulated students, blind grading and paired analysis.",
+  "type": "module",
+  "icon": "./icon.svg",
+  "exports": {
+    ".": "./dist/host.js",
+    "./client": "./dist/client.js",
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg"
+  },
+  "files": [
+    "dist/host.js",
+    "dist/client.js",
+    "corpus/corpus.json",
+    "experiment/scenarios.json",
+    "cordis.patch.yml",
+    "locale/*.json",
+    "icon.svg",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=24",
+    "dsh": "0.2.2-rc.1"
+  },
+  "scripts": {
+    "build": "tsc --noEmit && node build.mjs",
+    "test": "tsx --test test/*.test.ts",
+    "scrape": "python3 -I scripts/scrape.py && python3 -I scripts/build_corpus.py",
+    "corpus": "python3 -I scripts/build_corpus.py",
+    "experiment": "tsx cli/run.ts",
+    "grade": "tsx cli/grade.ts",
+    "analyze": "tsx cli/analyze.ts",
+    "overlay": "node scripts/overlay.mjs"
+  },
+  "dsh": {
+    "manifestVersion": 1,
+    "client": {
+      "platform": "web",
+      "inject": [
+        "@deepseek-ai/dsh-client-connection",
+        "@deepseek-ai/dsh-client-locale",
+        "@deepseek-ai/dsh-client-ui-sidebar-right",
+        "@deepseek-ai/dsh-client-ui-conversation"
+      ]
+    },
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.1.0",
+    "@deepseek-ai/dsh-agent-default-model": "0.2.2-rc.1",
+    "@deepseek-ai/dsh-client-connection": "0.2.2-rc.1",
+    "@deepseek-ai/dsh-llm": "0.2.2-rc.1"
+  },
+  "dependencies": {
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "4.1.0",
+    "@deepseek-ai/dsh-agent-default-model": "0.2.2-rc.1",
+    "@deepseek-ai/dsh-client-connection": "0.2.2-rc.1",
+    "@deepseek-ai/dsh-client-locale": "0.2.2-rc.1",
+    "@deepseek-ai/dsh-client-ui-conversation": "0.2.2-rc.1",
+    "@deepseek-ai/dsh-client-ui-renderer": "0.2.2-rc.1",
+    "@deepseek-ai/dsh-client-ui-sidebar-right": "0.2.2-rc.1",
+    "@deepseek-ai/dsh-client-ui-slots": "0.2.2-rc.1",
+    "@deepseek-ai/dsh-llm": "0.2.2-rc.1",
+    "@deepseek-ai/schemastery": "^3.19.0",
+    "@types/node": "^24.0.0",
+    "@types/react": "18.3.12",
+    "esbuild": "0.28.2",
+    "react": "18.3.1",
+    "tsx": "^4.20.0",
+    "typescript": "^5.9.0"
+  }
+}

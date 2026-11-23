@@ -1,0 +1,20 @@
+{
+ "id": "MAT-MINOR",
+ "level": "department",
+ "unit": "mat",
+ "title": "Mathematics Minor (catalog)",
+ "url": "https://catalog.ucdavis.edu/departments-programs-degrees/mathematics/mathematics-minor/",
+ "pageTitle": "General Catalog - Mathematics, Minor",
+ "retrievedAt": "2026-11-18T22:25:34+00:00",
+ "sha256": "461d8e4493d357ae4b25232f9c9b3f76cc9fc215ba597726abae7b83240f8abb",
+ "sections": [
+  {
+   "heading": "The Minor Program",
+   "text": "Mathematics is the study of abstract structures, space, change, and the interrelations of these concepts. It also is the language of the exact sciences."
+  },
+  {
+   "heading": "The Minor Program > Minor Advisor",
+   "text": "For a current list of faculty and staff advisors; see Mathematics Department Advising or contact Student Services.\nCourse List\nCode | Title | Units\nChoose five upper division courses (20 units total) in Mathematics: 1 | 20\nMAT/BIS 107 | Probability & Stochastic Processes with Applications to Biology\nMAT 108 | Introduction to Abstract Mathematics\nor MAT 108V | Introduction to Abstract Mathematics\nMAT 111 | History of Mathematics\nMAT 114 | Convex Geometry\nMAT 115A | Number Theory\nMAT 115B | Number Theory\nMAT 116 | Differential Geometry\nMAT 118A | Partial Differential Equations: Elementary Methods\nMAT 118B | Partial Differential Equations: Eigenfunction Expansions\nMAT 118C | Partial Differential Equations: Green's Functions & Transforms\nMAT 119A | Ordinary Differential Equations\nMAT 119B | Ordinary Differential Equations\nMAT 124 | Mathematical Biology\nMAT 127A | Real Analysis\nMAT 127B | Real Analysis\nMAT 127C | Real Analysis\nMAT 128A | Numerical Analysis\nMAT 128B | Numerical Analysis in Solution of Equations\nMAT 128C | Numerical Analysis in Differential Equations\nMAT 129 | Fourier Analysis\nMAT 133 | Mathematical Finance\nMAT 135A | Probability\nMAT 135B | Stochastic Processes\nMAT 141 | Euclidean Geometry\nMAT 145 | Combinatorics\nMAT 146 | Algebraic Combinatorics\nMAT 147 | Topology\nMAT 148 | Discrete Mathematics\nMAT 150A | Modern Algebra\nMAT 150B | Modern Algebra\nMAT 150C | Modern Algebra\nMAT 165 | Mathematics & Computers\nMAT 167 | Applied Linear Algebra\nor MAT 167V | Applied Linear Algebra\nMAT 168 | Optimization\nor MAT 168V | Optimization\nMAT 170 | Mathematics for Data Analytics & Decision Making\nMAT 180 | Special Topics\nMAT 185A | Complex Analysis\nMAT 185B | Complex Analysis\nTotal Units | 20\n1\nExclusive of MAT 189, MAT 192, MAT 194, MAT 197TC, MAT 198, MAT 199."
+  }
+ ]
+}

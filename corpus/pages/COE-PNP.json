@@ -1,0 +1,44 @@
+{
+ "id": "COE-PNP",
+ "level": "college",
+ "unit": "coe",
+ "title": "CoE P/NP Policy",
+ "url": "https://engineering.ucdavis.edu/undergraduates/academic-advising/pnp-policy-info",
+ "pageTitle": "Passed/Not Passed Policy Information | UC Davis College of Engineering",
+ "retrievedAt": "2026-11-18T22:25:17+00:00",
+ "sha256": "f35f10a44ec36841e6a1858bd9be524cb7e38d39184d11463f4127db2c89cefa",
+ "sections": [
+  {
+   "heading": "Passed/Not Passed Policy Information",
+   "text": "Degree Requirements\nNew Students\nForms\nFAQs\nMandatory Advising Check-in\nAdvisors\nAn undergraduate student in good academic standing may opt to take specific courses on a Passed (P) or Not Passed (NP) basis, or P/NP, subject to academic-senate regulations (DDR A545) and the following additional restrictions in accordance with the regulations of the Faculty of the College of Engineering."
+  },
+  {
+   "heading": "Passed/Not Passed Policy Information > Unit Restrictions",
+   "text": "P/NP grading is allowed for up to a maximum of 16 units.\nStudents can calculate the number of P/NP units that they have by counting the number of P/NP graded units that appear in OASIS."
+  },
+  {
+   "heading": "Passed/Not Passed Policy Information > Courses Allowed",
+   "text": "P/NP grading is allowed for General Education (GE) courses and unrestricted electives taken outside of the College of Engineering."
+  },
+  {
+   "heading": "Passed/Not Passed Policy Information > Courses Not Allowed",
+   "text": "Courses offered by the College of Engineering (BIM, EAE, EBS, ECH, ECI, ECS, EEC, EME, EMS, ENG)\nCourses completed for satisfaction of degree requirements (e.g., technical electives).\nCourses in which a letter grade of D or F was received may not be repeated on a P/NP grading basis (Exception: courses in which a grade of NP was received may be repeated on a P/NP or letter-graded basis).\nCourses taken prior to Summer Session 1 2017 on a P/NP basis cannot be used toward the GE requirement."
+  },
+  {
+   "heading": "Passed/Not Passed Policy Information > Deadline for Changing Grade Mode",
+   "text": "Students can opt for P/NP grading or revert back to letter grading through the 40th day of instruction during the academic year (check the Summer Sessions website for summer deadlines)."
+  },
+  {
+   "heading": "Passed/Not Passed Policy Information > Process for Changing Grade Mode",
+   "text": "Students in Good Academic Standing for Grades or Academic Notice for units can use Grade Mode Change in Schedule Builder."
+  },
+  {
+   "heading": "Passed/Not Passed Policy Information > Retroactive Actions",
+   "text": "Retroactive Grade Mode Changes are processed via petition by the Office of the University Registrar for graduation purposes only."
+  },
+  {
+   "heading": "Passed/Not Passed Policy Information > Frequently Asked Questions",
+   "text": "Can I take engineering courses and required math and science courses with P/NP grading?\nFor Spring 2020 through Winter 2021, only, the P/NP grading option is allowed for all courses offered by the College of Engineering and any other coursework completed in satisfaction of engineering degree requirements. Outside of these enrollment periods, only GE courses and unrestricted electives taken outside the College of Engineering are allowed for P/NP grading.\nI took a class as P/NP, but I did better than I expected and I want to change it to a letter grade. Can I do that?\nStudents who took classes as P/NP in Spring 2020 can request to change their grade mode retroactively. See here for the link to Instructions and Deadlines. Classes taken outside of this quarter are not approved for retroactive grade mode changes. If you have questions, ask an advisor.\nI took a class as a letter grade, but I did not do as well as I expected and I want to change it to P/NP. Can I do that?\nStudents who took classes as a letter grade in Spring 2020 can request to change their grade mode retroactively (unless it was a repeat of a letter-graded class). Classes taken outside of this quarter are not approved for retroactive grade mode changes. If you have questions, ask an advisor."
+  }
+ ]
+}

@@ -1,0 +1,48 @@
+{
+ "id": "MAT-AB",
+ "level": "department",
+ "unit": "mat",
+ "title": "Mathematics, A.B. (catalog)",
+ "url": "https://catalog.ucdavis.edu/departments-programs-degrees/mathematics/mathematics-ab/",
+ "pageTitle": "General Catalog - Mathematics, Bachelor of Arts",
+ "retrievedAt": "2026-11-18T22:25:31+00:00",
+ "sha256": "54fa7c9d119b0cbe448e2fd015f1e4e407167053c693208a5b89f24d5f2ced7d",
+ "sections": [
+  {
+   "heading": "(page)",
+   "text": "Office & Contact Information\nMathematics is the study of abstract structures, space, change, and the interrelations of these concepts. It also is the language of the exact sciences."
+  },
+  {
+   "heading": "The Program",
+   "text": "Students majoring in mathematics may follow a program leading to either the Bachelor of Arts or the Bachelor of Science degree. After completing basic introductory courses such as calculus and linear algebra, students plan an upper division program in consultation with a faculty advisor. Upper division courses include real analysis, probability, modern algebra, as well as a variety of other courses that allow students to further mathematical knowledge and skills that feature their research or career interests. This individualized program can lead to graduate study in pure or applied mathematics, elementary or secondary level teaching, or to other professional goals. It can also reflect a special interest such as computational and applied mathematics, computer science, or statistics, or may be combined with a major in some other field."
+  },
+  {
+   "heading": "The Program > Career Alternatives",
+   "text": "A degree in mathematics provides entry to many careers in industry in addition to teaching. For instance, operations research, data analysis, systems analysis, computing, actuarial work, insurance, and financial services are only a few such careers. Mathematics is also a sound basis for graduate work in a variety of fields, such as law, engineering, and economics."
+  },
+  {
+   "heading": "The Program > Major Advisors",
+   "text": "For a current list of faculty and staff advisors; see Math Department Advising or contact Student Services."
+  },
+  {
+   "heading": "The Program > Mathematics Placement Requirement",
+   "text": "Students who wish to enroll in MAT 012, MAT 017A, MAT 019A, MAT 021A, MAT 021AH, and MAT 021M must satisfy the mathematics placement requirement by taking an online exam. Students who do not satisfy the requirement will be administratively dropped from these courses. For more information, including preparation tips and how to access the online exam, please see the Department of Mathematics website, at Math Placement Requirement (MPR), well in advance of enrolling."
+  },
+  {
+   "heading": "The Program > Department Honors",
+   "text": "Students who meet the minimum GPA requirement for honors at graduation for the College of Letters & Science and who complete a senior project as part of MAT 194 or MAT 199 units in consultation with their faculty advisor may also be recommended by the department for graduation with High Honors or Highest Honors. Recommendations will be based on evaluations of students' academic achievements in their major and the quality of their senior project. For complete details, see Mathematics."
+  },
+  {
+   "heading": "Graduate Study",
+   "text": "The Department offers programs of study and research leading to M.A. and Ph.D. degrees in Mathematics. Information regarding graduate study may be obtained by consulting our website, and by sending an email to Student Services.\nThe major requirements below are in addition to meeting University Degree Requirements & College Degree Requirements; unless otherwise noted. The minimum number of units required for the Mathematics Bachelor of Arts is 78.\nCourse List\nCode | Title | Units\nPreparatory Subject Matter\nCalculus\nMAT 021A | Calculus | 4\nMAT 021B | Calculus | 4\nMAT 021C | Calculus | 4\nMAT 021D | Vector Analysis | 4\nLinear Algebra & Proof-Writing 1\nChoose one option: | 4-8\n(a)\nMAT 022A | Linear Algebra\nMAT 108 | Introduction to Abstract Mathematics\nor MAT 108V | Introduction to Abstract Mathematics\n(b)\nMAT/BIS 027A | Linear Algebra with Applications to Biology\n(c)\nMAT 067 | Modern Linear Algebra\nMATLAB | 0-1\nMAT 022AL | Linear Algebra Computer Laboratory\nEquivalent MATLAB knowledge.\nDifferential Equations\nMAT/BIS 027B | Differential Equations with Applications to Biology | 3-4\nor MAT 022B | Differential Equations\nProgramming\nECS 032A | Introduction to Programming | 4\nor ECS 032AV | Introduction to Programming\nor ENG 006 | Engineering Problem Solving with Applied AI\nAdditional Non-Mathematics Courses\nChosen from the L&S Natural Sciences & Mathematics List. | 12\nPreparatory Subject Matter Subtotal | 39-45\nDepth Subject Matter\nPlans\nChoose one: | 39-40\nPlan 1: General Mathematics\nPlan 2: Secondary Teaching\nNote: Students who wish to satisfy the single subject matter waiver for the teaching credential should see an advisor as early as possible.\nDepth Subject Matter Subtotal | 39-40\nTotal Units | 78-85\n1\nNote: Basic knowledge of MATLAB is required for both MAT 022A and MAT 067. Students can learn it on their own, enroll in ENG 006, or in the one 1 unit course MAT 022AL (can be taken concurrently)."
+  },
+  {
+   "heading": "Plan 1: General Mathematics",
+   "text": "A. Core Courses\nMAT 127A | Real Analysis | 4\nMAT 127B | Real Analysis | 4\nMAT 127C | Real Analysis | 4\nMAT 135A | Probability | 4\nMAT 150A | Modern Algebra | 4\nB. Enrichment Courses\nChoose four: | 16\nMAT 111-MAT 185B; up to four of these 16 units may be approved upper division courses outside of the Department of Mathematics with extensive use of mathematics. 1\nC. Capstone Course\nChoose one: | 3-4\nMAT 115B | Number Theory\nMAT 118B | Partial Differential Equations: Eigenfunction Expansions\nMAT 119B | Ordinary Differential Equations\nMAT 135B | Stochastic Processes\nMAT 146 | Algebraic Combinatorics\nMAT 150B | Modern Algebra\nMAT 150C | Modern Algebra\nMAT 180 | Special Topics\nMAT 185B | Complex Analysis\nMAT 189 | Advanced Problem Solving\nMAT 192 | Internship in Applied Mathematics (Must take 3 units.)\nMAT 194 | Undergraduate Thesis\nExcluding MAT 180, core courses, and courses being used as a capstone."
+  },
+  {
+   "heading": "Plan 2: Secondary Teaching",
+   "text": "MAT 111 | History of Mathematics | 4\nMAT 115A | Number Theory | 4\nMAT 141 | Euclidean Geometry | 4\nB. Enrichment Course\nChoose one: | 4\nMAT 111-MAT 185B. 1\nEDU/GEL 183 | Teaching High School Mathematics & Science\nGEL/EDU 183 | Teaching High School Mathematics & Science"
+  }
+ ]
+}

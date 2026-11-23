@@ -1,0 +1,24 @@
+{
+ "id": "UNI-CREDIT",
+ "level": "university",
+ "unit": "university",
+ "title": "Academic Credit",
+ "url": "https://catalog.ucdavis.edu/academic-information-policies-regulations/academic-credit/",
+ "pageTitle": "General Catalog - Academic Credit",
+ "retrievedAt": "2026-11-18T22:24:59+00:00",
+ "sha256": "6f4be98b569f2cdfa56e5a15e67fa5568bd3f93f67648ab78bf9285658231eee",
+ "sections": [
+  {
+   "heading": "(page)",
+   "text": "Related: Unit Requirements & Limitations | Credit by Examination | Summer Sessions"
+  },
+  {
+   "heading": "AP & IB Examination Credit",
+   "text": "The University of California (UC) awards credit for successful completion of the College Board d (AP) and the International Baccalaureate Higher Level Examinations (IB). Students must have official test score reports sent directly from the testing service to UC Davis to receive credit. Students meet with advising staff during Aggie Orientation to discuss which courses or requirements they may have satisfied based on transfer credit for scores in these examinations."
+  },
+  {
+   "heading": "Special Programs",
+   "text": "There are a variety of special programs that allow admitted UC Davis students to take courses at other UCs, through the University of California Center Sacramento (UCCS) program, in Washington DC, or abroad, and California Community College (CCC) or California State University (CSU) students to attend UC Davis as non-degree-seeking students. Each program has its own requirements and application process.\nIntercampus Visiting Programs | Intersegmental Cross Enrollment: Visiting California State University & California Community College Students | Study Abroad | University of California Center Sacramento (UCCS) | Washington Program"
+  }
+ ]
+}

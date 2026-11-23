@@ -1,0 +1,2590 @@
+[
+  {
+    "id": "DEV-01",
+    "split": "dev",
+    "category": "unclear-interests",
+    "secondary": [
+      "uncertain-preparation",
+      "workload-tradeoff"
+    ],
+    "title": "Photography and interface design, curious about computing",
+    "titleZh": "喜欢摄影与界面设计，想试试计算机",
+    "year": "1st year",
+    "majors": [
+      "ECS",
+      "LIN"
+    ],
+    "opening": "I'm a first-year and honestly not sure what to study. I like photography and designing app screens, and people keep telling me to try computer science. Where should I even start?",
+    "facts": [
+      {
+        "id": "college",
+        "topic": "current college and major status",
+        "answer": "I'm Undeclared in the College of Letters & Science.",
+        "critical": true
+      },
+      {
+        "id": "quarter",
+        "topic": "which quarter at UC Davis / how many units",
+        "answer": "This is my first quarter here, Fall 2026, and I'm taking 13 units.",
+        "critical": true
+      },
+      {
+        "id": "programming",
+        "topic": "programming experience",
+        "answer": "I've only done a little HTML and some Scratch in middle school. No real programming class."
+      },
+      {
+        "id": "calc",
+        "topic": "high school calculus / AP exams / math credit",
+        "answer": "I took AP Calculus AB and got a 3. I'm not sure if that gives me college credit.",
+        "critical": true
+      },
+      {
+        "id": "work",
+        "topic": "job / work hours / time commitments",
+        "answer": "I work 8 hours a week at the campus coffee shop."
+      },
+      {
+        "id": "style",
+        "topic": "preferred learning style, exams vs projects, stress",
+        "answer": "Exam-heavy classes stressed me out a lot in high school. I do much better with projects."
+      },
+      {
+        "id": "goal",
+        "topic": "career goals / what they want to try",
+        "answer": "I'd like to try computing without giving up on design — maybe UX someday. I don't want to commit to a major yet."
+      }
+    ],
+    "checklist": [
+      {
+        "id": "c1",
+        "type": "elicit",
+        "text": "Asks about the calculus exam score / credit",
+        "weight": 2,
+        "facts": [
+          "calc"
+        ]
+      },
+      {
+        "id": "c2",
+        "type": "elicit",
+        "text": "Establishes current college/major status and that this is the first quarter",
+        "weight": 2,
+        "facts": [
+          "college",
+          "quarter"
+        ]
+      },
+      {
+        "id": "c3",
+        "type": "elicit",
+        "text": "Asks about programming experience or workload/learning preferences",
+        "weight": 1,
+        "facts": [
+          "programming",
+          "style",
+          "work"
+        ]
+      },
+      {
+        "id": "c4",
+        "type": "cite",
+        "text": "Checks the AP credit table",
+        "weight": 2,
+        "docs": [
+          "UNI-AP"
+        ]
+      },
+      {
+        "id": "c5",
+        "type": "caution",
+        "text": "States that an AP Calculus AB score of 3 gives units but no MAT 21A equivalence, so MAT 21A is still needed for CS prep (or hedges correctly before the score is known)",
+        "weight": 2
+      },
+      {
+        "id": "c6",
+        "type": "next_step",
+        "text": "Suggests a low-commitment way to try computing (e.g., ECS 32A, which is open to non-majors) while keeping the current path open",
+        "weight": 2
+      },
+      {
+        "id": "c7",
+        "type": "cite",
+        "text": "Checks CS change-of-major / College of Engineering requirements before talking about switching",
+        "weight": 1,
+        "docs": [
+          "ECS-CHANGE",
+          "COE-FAQ"
+        ]
+      },
+      {
+        "id": "c8",
+        "type": "caution",
+        "text": "Notes that a major cannot be changed/declared during the first quarter, or otherwise does not push an immediate major change",
+        "weight": 1
+      },
+      {
+        "id": "c9",
+        "type": "referral",
+        "text": "Prepares specific questions for an advisor (L&S or CS change-of-major session)",
+        "weight": 1
+      }
+    ],
+    "reference": "Strong answers separate 'exposure' from credit: AP Calc AB 3 → 4 units, no course equivalence. Try ECS 32A (no prerequisite) in Winter; explore UX-related paths; CS B.S. is in Engineering and requires MAT 21A/21B, ECS 20 and 32A/32B/32C+34 with 3.0 GPA; attend the CS change-of-major session. Informal reviews may describe workload but cannot set requirements."
+  },
+  {
+    "id": "DEV-02",
+    "split": "dev",
+    "category": "overlapping-requirements",
+    "secondary": [
+      "unclear-interests"
+    ],
+    "title": "Psychology major weighing a Linguistics minor vs double major (Chinese)",
+    "titleZh": "心理学大二：语言学辅修还是双专业",
+    "year": "2nd year",
+    "majors": [
+      "PSC",
+      "LIN"
+    ],
+    "opening": "我是心理学专业的大二学生，最近对语言学很感兴趣。我应该辅修语言学还是双专业？",
+    "facts": [
+      {
+        "id": "declared",
+        "topic": "declared major and degree type",
+        "answer": "我已经申报了心理学 B.S.，在文理学院。",
+        "critical": true
+      },
+      {
+        "id": "units",
+        "topic": "units completed / GPA",
+        "answer": "我现在大概修了 78 个学分，GPA 3.3。",
+        "critical": true
+      },
+      {
+        "id": "lin",
+        "topic": "linguistics courses taken so far",
+        "answer": "我上学期上了 LIN 1，拿了 A-。"
+      },
+      {
+        "id": "language",
+        "topic": "foreign language background",
+        "answer": "我母语是中文，高中学过两年西班牙语，大学还没上过外语课。",
+        "critical": true
+      },
+      {
+        "id": "goal",
+        "topic": "career goals",
+        "answer": "我以后想读语言病理学（speech-language pathology）的研究生。"
+      },
+      {
+        "id": "time",
+        "topic": "graduation timeline / workload",
+        "answer": "我希望四年按时毕业，不想太累。"
+      }
+    ],
+    "checklist": [
+      {
+        "id": "c1",
+        "type": "elicit",
+        "text": "Learns the declared major/degree and units completed",
+        "weight": 2,
+        "facts": [
+          "declared",
+          "units"
+        ]
+      },
+      {
+        "id": "c2",
+        "type": "elicit",
+        "text": "Asks about foreign-language background (matters for the LIN A.B.)",
+        "weight": 2,
+        "facts": [
+          "language"
+        ]
+      },
+      {
+        "id": "c3",
+        "type": "cite",
+        "text": "Checks the Linguistics A.B. requirements",
+        "weight": 1,
+        "docs": [
+          "LIN-AB",
+          "LIN-MAJOR"
+        ]
+      },
+      {
+        "id": "c4",
+        "type": "cite",
+        "text": "Checks the Linguistics minor requirements",
+        "weight": 1,
+        "docs": [
+          "LIN-MINOR"
+        ]
+      },
+      {
+        "id": "c5",
+        "type": "cite",
+        "text": "Checks L&S multiple-major rules (unit overlap, approvals, 225-unit limit)",
+        "weight": 2,
+        "docs": [
+          "LS-CHANGE",
+          "LS-DEGREE"
+        ]
+      },
+      {
+        "id": "c6",
+        "type": "caution",
+        "text": "Notes a Psych B.S. + Linguistics A.B. combination would lead to a B.A.S. / that the A.B. foreign-language requirement applies",
+        "weight": 1
+      },
+      {
+        "id": "c7",
+        "type": "next_step",
+        "text": "Gives a concrete comparison and next steps for minor vs double major given the 4-year goal",
+        "weight": 2
+      },
+      {
+        "id": "c8",
+        "type": "referral",
+        "text": "Suggests checking with Linguistics and L&S advisors with specific questions",
+        "weight": 1
+      }
+    ],
+    "reference": "Minor is lighter; double major requires 80% unique upper-division units, consent of both departments and L&S, completion within 225 units, and A.B. foreign-language (15 units + one more course in LIN A.B.). Psych B.S. + LIN A.B. → B.A.S. degree. Reply should be in Chinese."
+  },
+  {
+    "id": "DEV-03",
+    "split": "dev",
+    "category": "uncertain-preparation",
+    "secondary": [
+      "unclear-interests"
+    ],
+    "title": "Applied Math vs Math B.S. after a C in MAT 21B",
+    "titleZh": "MAT 21B 拿了 C：应用数学还是数学 B.S.",
+    "year": "1st year",
+    "majors": [
+      "MAT"
+    ],
+    "opening": "I want to declare a math major but I'm not sure which one, and I got a C in MAT 21B. Is that a problem?",
+    "facts": [
+      {
+        "id": "status",
+        "topic": "current major / college",
+        "answer": "I'm Undeclared in Letters & Science, second quarter here.",
+        "critical": true
+      },
+      {
+        "id": "grades",
+        "topic": "math courses taken and grades",
+        "answer": "MAT 21A I got a B+, MAT 21B a C. I'm taking MAT 21C now.",
+        "critical": true
+      },
+      {
+        "id": "interest",
+        "topic": "interests within math / applications",
+        "answer": "I like using math for real problems, like modeling, more than proofs."
+      },
+      {
+        "id": "programming",
+        "topic": "programming experience",
+        "answer": "I haven't taken any programming course yet."
+      },
+      {
+        "id": "linear",
+        "topic": "linear algebra / MATLAB plans",
+        "answer": "I haven't taken linear algebra and I don't know MATLAB."
+      }
+    ],
+    "checklist": [
+      {
+        "id": "c1",
+        "type": "elicit",
+        "text": "Learns which math courses/grades are completed",
+        "weight": 2,
+        "facts": [
+          "grades"
+        ]
+      },
+      {
+        "id": "c2",
+        "type": "elicit",
+        "text": "Asks about interests (applied vs pure)",
+        "weight": 1,
+        "facts": [
+          "interest"
+        ]
+      },
+      {
+        "id": "c3",
+        "type": "cite",
+        "text": "Checks Applied Math and Math degree requirements",
+        "weight": 2,
+        "docs": [
+          "MAT-APM-BS",
+          "MAT-BS",
+          "MAT-AB"
+        ]
+      },
+      {
+        "id": "c4",
+        "type": "cite",
+        "text": "Checks L&S minimum change/declare requirements",
+        "weight": 1,
+        "docs": [
+          "LS-CHANGE"
+        ]
+      },
+      {
+        "id": "c5",
+        "type": "caution",
+        "text": "Treats department-specific declaration GPA/grade thresholds as unverified (only an undated legacy record lists them) and says to confirm with the Math department",
+        "weight": 2
+      },
+      {
+        "id": "c6",
+        "type": "next_step",
+        "text": "Recommends finishing the prep sequence (21C/21D, 22A with MATLAB/22AL, ECS 32A) and a plan to compare tracks",
+        "weight": 2
+      },
+      {
+        "id": "c7",
+        "type": "referral",
+        "text": "Points to Math department drop-in advising (non-majors) with concrete questions",
+        "weight": 1
+      }
+    ],
+    "reference": "Legacy record: Math declaring needs 2.7 GPA in MAT 21A-D, 22A/67, 22B; Applied Math needs C or better. Current pages do not state thresholds → confirm. L&S minimum: one required course at UCD and 2.0 GPA in major-required courses. MAT 22A needs MATLAB knowledge (MAT 22AL). Non-majors use drop-in advising."
+  },
+  {
+    "id": "DEV-04",
+    "split": "dev",
+    "category": "procedural-risk",
+    "secondary": [
+      "overlapping-requirements"
+    ],
+    "title": "Took ECS 20 as P/NP, wants to switch into CS",
+    "titleZh": "ECS 20 用了 P/NP，想转计算机",
+    "year": "2nd year",
+    "majors": [
+      "ECS"
+    ],
+    "opening": "I'm in Cognitive Science and want to switch to Computer Science. I've done most of the prep classes. What's left?",
+    "facts": [
+      {
+        "id": "status",
+        "topic": "current major and college",
+        "answer": "I'm a Cognitive Science major in Letters & Science.",
+        "critical": true
+      },
+      {
+        "id": "courses",
+        "topic": "CS/math courses completed",
+        "answer": "I finished MAT 21A, MAT 21B, ECS 32A, ECS 32B and ECS 20.",
+        "critical": true
+      },
+      {
+        "id": "pnp",
+        "topic": "grading option used / P/NP / letter grades",
+        "answer": "I took ECS 20 Pass/No Pass last spring because I was overloaded. Everything else was letter graded.",
+        "critical": true
+      },
+      {
+        "id": "gpa",
+        "topic": "GPA overall and in prep courses",
+        "answer": "My overall UC GPA is 3.2; my grades in those courses were mostly B's.",
+        "critical": true
+      },
+      {
+        "id": "units",
+        "topic": "units completed",
+        "answer": "About 85 units so far."
+      }
+    ],
+    "checklist": [
+      {
+        "id": "c1",
+        "type": "elicit",
+        "text": "Asks about grading mode (discovers the P/NP)",
+        "weight": 2,
+        "facts": [
+          "pnp"
+        ]
+      },
+      {
+        "id": "c2",
+        "type": "elicit",
+        "text": "Learns completed courses and GPA",
+        "weight": 2,
+        "facts": [
+          "courses",
+          "gpa"
+        ]
+      },
+      {
+        "id": "c3",
+        "type": "cite",
+        "text": "Checks CS change-of-major criteria",
+        "weight": 2,
+        "docs": [
+          "ECS-CHANGE",
+          "ECS-FAQ"
+        ]
+      },
+      {
+        "id": "c4",
+        "type": "cite",
+        "text": "Checks College of Engineering change/P-NP rules",
+        "weight": 1,
+        "docs": [
+          "COE-FAQ",
+          "COE-PNP"
+        ]
+      },
+      {
+        "id": "c5",
+        "type": "caution",
+        "text": "Flags that a P grade in ECS 20 may not meet the C-/letter-grade requirement and that this must be confirmed",
+        "weight": 2
+      },
+      {
+        "id": "c6",
+        "type": "next_step",
+        "text": "Lists remaining prep (ECS 32C and ECS 34) and the advising-session step",
+        "weight": 2
+      },
+      {
+        "id": "c7",
+        "type": "cite",
+        "text": "Checks the university repeat / P/NP rules (a P/NP course may be repeated for a letter grade)",
+        "weight": 1,
+        "docs": [
+          "UNI-GRADES"
+        ]
+      },
+      {
+        "id": "c8",
+        "type": "referral",
+        "text": "Recommends the CS change-of-major advising session / CoE advisor",
+        "weight": 1
+      }
+    ],
+    "reference": "CS change: C- or higher + 3.0 GPA in MAT 21A, 21B, ECS 20 and 32A/32B/32C + 34; overall 3.0; CoE: letter grades for Engineering degree requirements, ≤135 units, ≥1 quarter. A P in ECS 20 likely needs a letter-graded repeat (allowed: P/NP courses can be repeated for a letter grade). Must attend change-of-major session."
+  },
+  {
+    "id": "H-U1",
+    "split": "heldout",
+    "category": "unclear-interests",
+    "secondary": [
+      "uncertain-preparation"
+    ],
+    "title": "How kids learn to talk: Psychology or Linguistics?",
+    "titleZh": "儿童语言习得：心理学还是语言学",
+    "year": "1st year",
+    "majors": [
+      "PSC",
+      "LIN"
+    ],
+    "opening": "I'm really into how kids learn language, but I can't tell if that's psychology or linguistics. Which major fits better?",
+    "facts": [
+      {
+        "id": "status",
+        "topic": "college / major status and quarter",
+        "answer": "I'm Undeclared – Social Sciences in L&S. It's my first quarter, Fall 2026.",
+        "critical": true
+      },
+      {
+        "id": "courses",
+        "topic": "courses taken so far",
+        "answer": "I'm taking PSC 1 right now and it's going well.",
+        "critical": true
+      },
+      {
+        "id": "language",
+        "topic": "languages spoken / AP language exams",
+        "answer": "I'm a Spanish heritage speaker and I got a 4 on AP Spanish Language.",
+        "critical": true
+      },
+      {
+        "id": "goal",
+        "topic": "career goal / graduate school",
+        "answer": "I'm thinking about becoming a speech-language pathologist."
+      },
+      {
+        "id": "research",
+        "topic": "research interest / lab experience",
+        "answer": "I'd love to work in a research lab eventually."
+      },
+      {
+        "id": "work",
+        "topic": "job or time constraints",
+        "answer": "I work 10 hours a week."
+      }
+    ],
+    "checklist": [
+      {
+        "id": "c1",
+        "type": "elicit",
+        "text": "Asks about career goal",
+        "weight": 1,
+        "facts": [
+          "goal"
+        ]
+      },
+      {
+        "id": "c2",
+        "type": "elicit",
+        "text": "Asks about language background",
+        "weight": 2,
+        "facts": [
+          "language"
+        ]
+      },
+      {
+        "id": "c3",
+        "type": "elicit",
+        "text": "Learns status/quarter and courses taken",
+        "weight": 1,
+        "facts": [
+          "status",
+          "courses"
+        ]
+      },
+      {
+        "id": "c4",
+        "type": "cite",
+        "text": "Checks Psychology declaration rule (PSC 1 + PSC 41, 2.5 GPA)",
+        "weight": 2,
+        "docs": [
+          "PSC-ADVISING",
+          "PSC-AB",
+          "PSC-BS"
+        ]
+      },
+      {
+        "id": "c5",
+        "type": "cite",
+        "text": "Checks Linguistics A.B. requirements incl. foreign language",
+        "weight": 2,
+        "docs": [
+          "LIN-AB",
+          "LIN-MAJOR"
+        ]
+      },
+      {
+        "id": "c6",
+        "type": "cite",
+        "text": "Checks AP Spanish credit",
+        "weight": 1,
+        "docs": [
+          "UNI-AP"
+        ]
+      },
+      {
+        "id": "c7",
+        "type": "next_step",
+        "text": "Suggests sampling both (e.g., LIN 1 and PSC 41; language-development courses such as LIN/EDU 173 or LIN 171 later)",
+        "weight": 2
+      },
+      {
+        "id": "c8",
+        "type": "caution",
+        "text": "Does not claim AP Spanish automatically satisfies the L&S/LIN language requirement without checking; notes first-quarter declaration limit",
+        "weight": 1
+      },
+      {
+        "id": "c9",
+        "type": "referral",
+        "text": "Prepares questions for Psychology/Linguistics advisors",
+        "weight": 1
+      }
+    ],
+    "reference": "Both fit; PSC requires PSC 1+41 at 2.5 GPA (letter grades). LIN A.B. needs LIN 1 + one course beyond the 15-unit L&S language requirement. AP Spanish Language 4 → 8 units, SPA 022 equivalence. Courses like LIN 171 (Psycholinguistics), LIN/EDU 173 (Language Development). Cannot declare in first quarter."
+  },
+  {
+    "id": "H-U2",
+    "split": "heldout",
+    "category": "unclear-interests",
+    "secondary": [
+      "overlapping-requirements"
+    ],
+    "title": "CS major who prefers proofs to coding",
+    "titleZh": "计算机专业却更喜欢证明",
+    "year": "2nd year",
+    "majors": [
+      "ECS",
+      "MAT"
+    ],
+    "opening": "I'm a CS major but I'm realizing I like the math parts way more than coding. Should I switch to math?",
+    "facts": [
+      {
+        "id": "status",
+        "topic": "major and college",
+        "answer": "I'm a Computer Science B.S. major in the College of Engineering.",
+        "critical": true
+      },
+      {
+        "id": "courses",
+        "topic": "courses completed",
+        "answer": "I've done MAT 21A–21C, ECS 20, ECS 36A and 36B. ECS 20 was my favorite.",
+        "critical": true
+      },
+      {
+        "id": "gpa",
+        "topic": "GPA",
+        "answer": "My UC GPA is 3.1.",
+        "critical": true
+      },
+      {
+        "id": "units",
+        "topic": "units completed",
+        "answer": "About 70 units."
+      },
+      {
+        "id": "goal",
+        "topic": "career goals",
+        "answer": "Maybe grad school, maybe teaching. I'm not sure."
+      },
+      {
+        "id": "keep",
+        "topic": "willingness to leave CS / keep options",
+        "answer": "I'd like to keep some computing if possible."
+      }
+    ],
+    "checklist": [
+      {
+        "id": "c1",
+        "type": "elicit",
+        "text": "Learns completed courses and GPA",
+        "weight": 2,
+        "facts": [
+          "courses",
+          "gpa"
+        ]
+      },
+      {
+        "id": "c2",
+        "type": "elicit",
+        "text": "Asks about goals / wish to keep computing",
+        "weight": 1,
+        "facts": [
+          "goal",
+          "keep"
+        ]
+      },
+      {
+        "id": "c3",
+        "type": "cite",
+        "text": "Checks Mathematics A.B./B.S. requirements",
+        "weight": 2,
+        "docs": [
+          "MAT-AB",
+          "MAT-BS",
+          "MAT-APM-BS"
+        ]
+      },
+      {
+        "id": "c4",
+        "type": "cite",
+        "text": "Checks the cross-college change process (Registrar / L&S)",
+        "weight": 2,
+        "docs": [
+          "UNI-REG-MAJOR",
+          "LS-CHANGE"
+        ]
+      },
+      {
+        "id": "c5",
+        "type": "caution",
+        "text": "Notes the department-specific math declaration criteria are not on current pages (legacy record only) and must be confirmed",
+        "weight": 1
+      },
+      {
+        "id": "c6",
+        "type": "caution",
+        "text": "Flags that whether ECS 36A satisfies the math major's ECS 32A programming requirement needs confirmation",
+        "weight": 1
+      },
+      {
+        "id": "c7",
+        "type": "next_step",
+        "text": "Offers options: switch to Math (or Applied Math), or stay in CS with math electives / math minor, with concrete next courses (MAT 21D, 22A, 108)",
+        "weight": 2
+      },
+      {
+        "id": "c8",
+        "type": "referral",
+        "text": "Suggests Math drop-in advising and CS advisor before changing",
+        "weight": 1
+      }
+    ],
+    "reference": "Change to L&S requires approval of the new major's adviser and dean's approval for the new college; L&S: one major course at UCD and 2.0 GPA in major courses. Math prep: 21A-D, 22A (+MATLAB)/67/27A, 22B, ECS 32A or ENG 6. Math minor is an alternative. Legacy declaring thresholds must be confirmed."
+  },
+  {
+    "id": "H-U3",
+    "split": "heldout",
+    "category": "unclear-interests",
+    "secondary": [
+      "workload-tradeoff"
+    ],
+    "title": "Linguistics junior wants a tech career (Chinese)",
+    "titleZh": "语言学大三想做 NLP",
+    "year": "3rd year",
+    "majors": [
+      "LIN",
+      "ECS"
+    ],
+    "opening": "我是语言学专业大三，想以后去科技公司做 NLP 相关的工作，现在还来得及吗？",
+    "facts": [
+      {
+        "id": "units",
+        "topic": "units completed and graduation timeline",
+        "answer": "我已经修了 120 个学分，计划 2028 年春季毕业。",
+        "critical": true
+      },
+      {
+        "id": "lin",
+        "topic": "linguistics courses taken",
+        "answer": "我上完了 LIN 103A 和 LIN 111。"
+      },
+      {
+        "id": "programming",
+        "topic": "programming experience",
+        "answer": "我完全没有编程基础。",
+        "critical": true
+      },
+      {
+        "id": "minor",
+        "topic": "interest in a minor / extra credential",
+        "answer": "如果能加一个计算机辅修就好了，但我怕来不及。"
+      },
+      {
+        "id": "math",
+        "topic": "math courses taken",
+        "answer": "数学只上过 MAT 17A。"
+      }
+    ],
+    "checklist": [
+      {
+        "id": "c1",
+        "type": "elicit",
+        "text": "Learns units and graduation timeline",
+        "weight": 2,
+        "facts": [
+          "units"
+        ]
+      },
+      {
+        "id": "c2",
+        "type": "elicit",
+        "text": "Learns programming background",
+        "weight": 2,
+        "facts": [
+          "programming"
+        ]
+      },
+      {
+        "id": "c3",
+        "type": "cite",
+        "text": "Checks the CS minor requirements (incl. LIN 127/LIN 177 as approved courses)",
+        "weight": 2,
+        "docs": [
+          "ECS-MINOR"
+        ]
+      },
+      {
+        "id": "c4",
+        "type": "cite",
+        "text": "Checks prerequisites for relevant courses (e.g., LIN 177, ECS 32A/32B, upper-division ECS)",
+        "weight": 1,
+        "docs": [
+          "COURSES"
+        ]
+      },
+      {
+        "id": "c5",
+        "type": "caution",
+        "text": "Explains the prerequisite chain makes three upper-division ECS courses hard to finish by graduation; avoids promising the full minor",
+        "weight": 2
+      },
+      {
+        "id": "c6",
+        "type": "next_step",
+        "text": "Suggests a realistic path: ECS 32A next quarter, LIN 127 / LIN 177 within the major, possibly a project portfolio",
+        "weight": 2
+      },
+      {
+        "id": "c7",
+        "type": "referral",
+        "text": "Suggests checking with Linguistics advisor and CS minor advising",
+        "weight": 1
+      },
+      {
+        "id": "c8",
+        "type": "cite",
+        "text": "Considers L&S unit limits",
+        "weight": 1,
+        "docs": [
+          "LS-DEGREE"
+        ]
+      }
+    ],
+    "reference": "CS minor: 3 upper-division ECS + 2 UD ECS/approved (LIN 127, LIN 177). UD ECS courses need 32B/36C etc. — long chain from zero. LIN 177 needs consent of instructor (LIN 1 recommended). Reply should be in Chinese."
+  },
+  {
+    "id": "H-U4",
+    "split": "heldout",
+    "category": "unclear-interests",
+    "secondary": [
+      "uncertain-preparation"
+    ],
+    "title": "Likes math and helping people",
+    "titleZh": "擅长数学又想直接帮助他人",
+    "year": "1st year",
+    "majors": [
+      "MAT",
+      "PSC"
+    ],
+    "opening": "I'm good at math but I also want a career where I help people directly. Is there a major that does both?",
+    "facts": [
+      {
+        "id": "status",
+        "topic": "college / major status",
+        "answer": "I'm Undeclared in Letters & Science, in my second quarter.",
+        "critical": true
+      },
+      {
+        "id": "ap",
+        "topic": "AP / exam credit",
+        "answer": "I got a 5 on AP Calculus BC and a 4 on AP Statistics.",
+        "critical": true
+      },
+      {
+        "id": "tutor",
+        "topic": "experiences that motivate them",
+        "answer": "I've tutored middle-school math for two years and loved it."
+      },
+      {
+        "id": "career",
+        "topic": "career ideas",
+        "answer": "Teaching, or maybe something in mental health. I don't know."
+      },
+      {
+        "id": "courses",
+        "topic": "courses taken at UC Davis",
+        "answer": "I'm taking MAT 21C and PSC 1 right now."
+      }
+    ],
+    "checklist": [
+      {
+        "id": "c1",
+        "type": "elicit",
+        "text": "Learns career ideas / motivation",
+        "weight": 1,
+        "facts": [
+          "career",
+          "tutor"
+        ]
+      },
+      {
+        "id": "c2",
+        "type": "elicit",
+        "text": "Learns AP credit",
+        "weight": 2,
+        "facts": [
+          "ap"
+        ]
+      },
+      {
+        "id": "c3",
+        "type": "cite",
+        "text": "Checks AP credit (Calc BC 5 → MAT 21A & 21B; AP Stats 4 → STA 13)",
+        "weight": 2,
+        "docs": [
+          "UNI-AP"
+        ]
+      },
+      {
+        "id": "c4",
+        "type": "cite",
+        "text": "Checks Math A.B. (Plan 2 Secondary Teaching)",
+        "weight": 2,
+        "docs": [
+          "MAT-AB"
+        ]
+      },
+      {
+        "id": "c5",
+        "type": "cite",
+        "text": "Checks Psychology B.S. requirements / declaration",
+        "weight": 1,
+        "docs": [
+          "PSC-BS",
+          "PSC-ADVISING"
+        ]
+      },
+      {
+        "id": "c6",
+        "type": "next_step",
+        "text": "Lays out 2 concrete pathways (Math A.B. teaching plan; Psychology B.S. with quantitative focus) with next courses",
+        "weight": 2
+      },
+      {
+        "id": "c7",
+        "type": "caution",
+        "text": "Notes AP equivalence must appear on the record before relying on it",
+        "weight": 1
+      },
+      {
+        "id": "c8",
+        "type": "referral",
+        "text": "Suggests early advisor contact for the teaching-credential route",
+        "weight": 1
+      }
+    ],
+    "reference": "Math A.B. Plan 2 Secondary Teaching (see advisor early for subject-matter waiver). Psych B.S. uses MAT 17/21 and STA 13. AP Calc BC 5 = MAT 21A & 21B; AP Stats 4/5 = STA 13."
+  },
+  {
+    "id": "H-P1",
+    "split": "heldout",
+    "category": "uncertain-preparation",
+    "secondary": [
+      "procedural-risk"
+    ],
+    "title": "AP CS A and Calc BC: can I skip ahead?",
+    "titleZh": "AP CS A 与 Calc BC：能跳过入门课吗",
+    "year": "1st year",
+    "majors": [
+      "ECS"
+    ],
+    "opening": "I had AP classes in high school so I want to skip the intro CS and calculus classes. Which ones can I skip?",
+    "facts": [
+      {
+        "id": "scores",
+        "topic": "AP exam scores",
+        "answer": "I got a 4 on AP Computer Science A and a 4 on AP Calculus BC.",
+        "critical": true
+      },
+      {
+        "id": "posted",
+        "topic": "whether scores were sent / show on record",
+        "answer": "I sent my scores but I don't see them in OASIS yet.",
+        "critical": true
+      },
+      {
+        "id": "status",
+        "topic": "college / major status and quarter",
+        "answer": "I'm in Letters & Science as Undeclared; first quarter, Fall 2026. I want to get into CS.",
+        "critical": true
+      },
+      {
+        "id": "experience",
+        "topic": "programming experience beyond AP",
+        "answer": "I've also built a couple of Python projects on my own."
+      },
+      {
+        "id": "plan",
+        "topic": "planned winter courses",
+        "answer": "I was going to take ECS 32B and MAT 21B in winter."
+      }
+    ],
+    "checklist": [
+      {
+        "id": "c1",
+        "type": "elicit",
+        "text": "Asks the actual AP scores",
+        "weight": 2,
+        "facts": [
+          "scores"
+        ]
+      },
+      {
+        "id": "c2",
+        "type": "elicit",
+        "text": "Asks whether scores are posted on the record",
+        "weight": 2,
+        "facts": [
+          "posted"
+        ]
+      },
+      {
+        "id": "c3",
+        "type": "cite",
+        "text": "Checks the AP table",
+        "weight": 2,
+        "docs": [
+          "UNI-AP"
+        ]
+      },
+      {
+        "id": "c4",
+        "type": "caution",
+        "text": "States Calc BC 4 gives MAT 21A equivalence only (not 21B) and CS A gives ECS 32A",
+        "weight": 2
+      },
+      {
+        "id": "c5",
+        "type": "cite",
+        "text": "Checks CS change-of-major criteria (32A/32B/32C+34 path; 36A-C not open to non-majors)",
+        "weight": 2,
+        "docs": [
+          "ECS-CHANGE"
+        ]
+      },
+      {
+        "id": "c6",
+        "type": "cite",
+        "text": "Checks ECS 32B / MAT 21B prerequisites",
+        "weight": 1,
+        "docs": [
+          "COURSES"
+        ]
+      },
+      {
+        "id": "c7",
+        "type": "next_step",
+        "text": "Confirms plan: ECS 32B + MAT 21B in winter once AP credit posts; how to check",
+        "weight": 2
+      },
+      {
+        "id": "c8",
+        "type": "caution",
+        "text": "Notes the CS change requires graded UC courses in the GPA calculation; AP credit does not supply a grade (asks advisor how AP-equivalent courses count)",
+        "weight": 1
+      }
+    ],
+    "reference": "AP CS A (3-5) → 8 units, ECS 32A. AP Calc BC 4 → 8 units, MAT 21A only; BC 5 needed for 21A & 21B. Scores must be posted. CS change uses 32A/32B/32C+34 path for non-majors with 3.0 GPA; how AP-equivalent courses factor into the GPA calculation is an advisor question."
+  },
+  {
+    "id": "H-P2",
+    "split": "heldout",
+    "category": "uncertain-preparation",
+    "secondary": [
+      "procedural-risk"
+    ],
+    "title": "AP Psychology 4 and a dual-enrollment psych class",
+    "titleZh": "AP 心理学 4 分加双录取心理课",
+    "year": "1st year",
+    "majors": [
+      "PSC"
+    ],
+    "opening": "Do I still need to take PSC 1 to declare psychology? I already did psych in high school.",
+    "facts": [
+      {
+        "id": "ap",
+        "topic": "AP Psychology score",
+        "answer": "I got a 4 on the AP Psychology exam.",
+        "critical": true
+      },
+      {
+        "id": "dual",
+        "topic": "college course taken during high school / community college",
+        "answer": "I also took General Psychology at Sacramento City College during senior year (dual enrollment) and got an A.",
+        "critical": true
+      },
+      {
+        "id": "status",
+        "topic": "current major status and quarter",
+        "answer": "I'm Undeclared – Social Sciences, second quarter.",
+        "critical": true
+      },
+      {
+        "id": "psc41",
+        "topic": "research methods / PSC 41 / statistics",
+        "answer": "I haven't taken PSC 41 or any stats yet."
+      }
+    ],
+    "checklist": [
+      {
+        "id": "c1",
+        "type": "elicit",
+        "text": "Asks AP score",
+        "weight": 2,
+        "facts": [
+          "ap"
+        ]
+      },
+      {
+        "id": "c2",
+        "type": "elicit",
+        "text": "Asks about other college coursework (dual enrollment)",
+        "weight": 2,
+        "facts": [
+          "dual"
+        ]
+      },
+      {
+        "id": "c3",
+        "type": "cite",
+        "text": "Checks AP table (AP Psych 4 = units, no PSC 001 equivalence; 5 = PSC 001)",
+        "weight": 2,
+        "docs": [
+          "UNI-AP"
+        ]
+      },
+      {
+        "id": "c4",
+        "type": "cite",
+        "text": "Checks Psychology declaration rule and transfer-credit note",
+        "weight": 2,
+        "docs": [
+          "PSC-ADVISING",
+          "PSC-AB",
+          "PSC-BS"
+        ]
+      },
+      {
+        "id": "c5",
+        "type": "caution",
+        "text": "Flags that the community-college course must articulate to PSC 1 and appear on the record; duplicate credit only once",
+        "weight": 2
+      },
+      {
+        "id": "c6",
+        "type": "next_step",
+        "text": "Next steps: verify articulation/posting; take PSC 41 (and STA 13 recommended) for a letter grade",
+        "weight": 2
+      },
+      {
+        "id": "c7",
+        "type": "referral",
+        "text": "Suggests Psychology advising to confirm eligibility",
+        "weight": 1
+      }
+    ],
+    "reference": "AP Psych 3/4 → 4 units, no equivalence; 5 → PSC 001. PSC declaring: PSC 1 + PSC 41 at 2.5 combined, letter grades; transfer credit counts for eligibility (grades from previous institution used). Duplicate credit (exam + course) awarded only once."
+  },
+  {
+    "id": "H-P3",
+    "split": "heldout",
+    "category": "uncertain-preparation",
+    "secondary": [
+      "unclear-interests"
+    ],
+    "title": "IB Math and Applied Math planning",
+    "titleZh": "IB 数学与应用数学规划",
+    "year": "1st year",
+    "majors": [
+      "MAT"
+    ],
+    "opening": "I did the IB diploma. Where do I start in math if I want Applied Math?",
+    "facts": [
+      {
+        "id": "ib",
+        "topic": "IB exams and scores",
+        "answer": "I took IB Mathematics: Analysis & Approaches HL and got a 6. Also IB Physics HL, 5.",
+        "critical": true
+      },
+      {
+        "id": "status",
+        "topic": "college / major status and quarter",
+        "answer": "I'm Undeclared in L&S, first quarter.",
+        "critical": true
+      },
+      {
+        "id": "current",
+        "topic": "current math course",
+        "answer": "Right now I'm in MAT 21B because my advisor at orientation said I could.",
+        "critical": true
+      },
+      {
+        "id": "interest",
+        "topic": "applications of interest",
+        "answer": "I'm interested in biology applications, like modeling populations."
+      },
+      {
+        "id": "programming",
+        "topic": "programming background",
+        "answer": "I know a bit of Python."
+      }
+    ],
+    "checklist": [
+      {
+        "id": "c1",
+        "type": "elicit",
+        "text": "Asks IB exam/level/score",
+        "weight": 2,
+        "facts": [
+          "ib"
+        ]
+      },
+      {
+        "id": "c2",
+        "type": "cite",
+        "text": "Checks IB credit table",
+        "weight": 2,
+        "docs": [
+          "UNI-IB"
+        ]
+      },
+      {
+        "id": "c3",
+        "type": "cite",
+        "text": "Checks Applied Math B.S. requirements",
+        "weight": 2,
+        "docs": [
+          "MAT-APM-BS"
+        ]
+      },
+      {
+        "id": "c4",
+        "type": "caution",
+        "text": "Notes IB credit depends on the score/level posted (does not assume)",
+        "weight": 1
+      },
+      {
+        "id": "c5",
+        "type": "next_step",
+        "text": "Plans MAT 21C/21D, 22A(+MATLAB/22AL) or 27A/27B biology-flavored options, ECS 32A",
+        "weight": 2
+      },
+      {
+        "id": "c6",
+        "type": "caution",
+        "text": "Treats Applied Math declaration thresholds as legacy/unverified",
+        "weight": 1
+      },
+      {
+        "id": "c7",
+        "type": "referral",
+        "text": "Suggests Math drop-in advising",
+        "weight": 1
+      }
+    ],
+    "reference": "IB Mathematics: Analysis & Approaches (qualifying HL score) → 8 units, MAT 21A & 21B. Applied Math B.S. has emphases incl. biology. MAT/BIS 27A/27B are biology-applied linear algebra / ODEs. Legacy record: Applied Math declaring requires C or better in MAT 21A-D, 22A/67, 22B."
+  },
+  {
+    "id": "H-P4",
+    "split": "heldout",
+    "category": "uncertain-preparation",
+    "secondary": [
+      "overlapping-requirements"
+    ],
+    "title": "Native Mandarin speaker and the language requirement (Chinese)",
+    "titleZh": "母语中文与外语要求",
+    "year": "2nd year",
+    "majors": [
+      "LIN"
+    ],
+    "opening": "我想读语言学 A.B.，听说要外语课。我母语是中文，这个能算吗？",
+    "facts": [
+      {
+        "id": "status",
+        "topic": "current major / college",
+        "answer": "我现在是文理学院的未定专业学生，大二。",
+        "critical": true
+      },
+      {
+        "id": "school",
+        "topic": "high school / schooling language",
+        "answer": "我高中在上海读的，全程中文授课，大二才来美国。",
+        "critical": true
+      },
+      {
+        "id": "lin",
+        "topic": "linguistics courses",
+        "answer": "我上过 LIN 1。"
+      },
+      {
+        "id": "other",
+        "topic": "other languages studied",
+        "answer": "除了英语，我没正式学过其他外语。"
+      }
+    ],
+    "checklist": [
+      {
+        "id": "c1",
+        "type": "elicit",
+        "text": "Asks about schooling language / how proficiency could be shown",
+        "weight": 2,
+        "facts": [
+          "school"
+        ]
+      },
+      {
+        "id": "c2",
+        "type": "cite",
+        "text": "Checks the L&S foreign-language requirement (15 units or equivalent; examination route)",
+        "weight": 2,
+        "docs": [
+          "LS-DEGREE",
+          "LS-DEGREQ-WEB"
+        ]
+      },
+      {
+        "id": "c3",
+        "type": "cite",
+        "text": "Checks the LIN A.B. extra-language-course requirement",
+        "weight": 2,
+        "docs": [
+          "LIN-AB",
+          "LIN-MAJOR"
+        ]
+      },
+      {
+        "id": "c4",
+        "type": "caution",
+        "text": "Says whether native proficiency satisfies it must be confirmed with L&S (doesn't promise)",
+        "weight": 2
+      },
+      {
+        "id": "c5",
+        "type": "next_step",
+        "text": "Next steps: ask L&S about satisfying/waiving by proficiency; plan the extra course beyond the requirement (e.g., Chinese at a higher level) or clarify how LIN handles it",
+        "weight": 2
+      },
+      {
+        "id": "c6",
+        "type": "referral",
+        "text": "Refers to L&S advising and Linguistics advisor",
+        "weight": 1
+      }
+    ],
+    "reference": "L&S A.B.: three sequenced quarters (15 units) or equivalent; may be satisfied by examination; LIN A.B. requires one course beyond that in the same language. Native-speaker handling must be confirmed. Reply should be in Chinese."
+  },
+  {
+    "id": "H-W1",
+    "split": "heldout",
+    "category": "workload-tradeoff",
+    "secondary": [
+      "procedural-risk"
+    ],
+    "title": "20 hours of work and a heavy CS quarter",
+    "titleZh": "每周打工 20 小时还想修 17 学分",
+    "year": "1st year",
+    "majors": [
+      "ECS"
+    ],
+    "opening": "I'm a CS major and I have to work a lot next quarter. Is 17 units too much? Can I P/NP something?",
+    "facts": [
+      {
+        "id": "work",
+        "topic": "work hours",
+        "answer": "I'll be working about 20 hours a week.",
+        "critical": true
+      },
+      {
+        "id": "plan",
+        "topic": "planned courses",
+        "answer": "ECS 36B, MAT 21C, PHY 9A and a GE class — 17 units.",
+        "critical": true
+      },
+      {
+        "id": "college",
+        "topic": "college / major",
+        "answer": "I'm a Computer Science B.S. major, College of Engineering.",
+        "critical": true
+      },
+      {
+        "id": "gpa",
+        "topic": "GPA / standing",
+        "answer": "I have a 2.9 GPA and I'm in good standing."
+      },
+      {
+        "id": "pnp",
+        "topic": "which course they want to P/NP",
+        "answer": "I was hoping to P/NP PHY 9A."
+      }
+    ],
+    "checklist": [
+      {
+        "id": "c1",
+        "type": "elicit",
+        "text": "Learns work hours and planned courses",
+        "weight": 2,
+        "facts": [
+          "work",
+          "plan"
+        ]
+      },
+      {
+        "id": "c2",
+        "type": "elicit",
+        "text": "Learns which course they want to P/NP",
+        "weight": 1,
+        "facts": [
+          "pnp"
+        ]
+      },
+      {
+        "id": "c3",
+        "type": "cite",
+        "text": "Checks CoE P/NP rules (16 units; only GE/unrestricted electives outside CoE)",
+        "weight": 2,
+        "docs": [
+          "COE-PNP"
+        ]
+      },
+      {
+        "id": "c4",
+        "type": "caution",
+        "text": "States PHY 9A (a major requirement) cannot be taken P/NP in CoE; GE may be",
+        "weight": 2
+      },
+      {
+        "id": "c5",
+        "type": "cite",
+        "text": "Checks minimum-progress rules (12 units average)",
+        "weight": 1,
+        "docs": [
+          "UNI-STANDING",
+          "COE-PROGRESS"
+        ]
+      },
+      {
+        "id": "c6",
+        "type": "next_step",
+        "text": "Suggests a lighter load (e.g., ~13-14 units) keeping minimum progress, and the drop deadlines",
+        "weight": 2
+      },
+      {
+        "id": "c7",
+        "type": "cite",
+        "text": "Checks drop/P-NP deadlines",
+        "weight": 1,
+        "docs": [
+          "UNI-ADDDROP",
+          "UNI-CAL-QUARTERDATES",
+          "UNI-GRADES"
+        ]
+      },
+      {
+        "id": "c8",
+        "type": "referral",
+        "text": "Refers to CoE advising",
+        "weight": 1
+      }
+    ],
+    "reference": "CoE: P/NP max 16 units, only GE and unrestricted electives outside CoE; major courses need letter grades. Minimum progress averages 12 units/quarter. Drop by 20th day (10-day-drop courses earlier); P/NP by 40th day. CS B.S. requires lab science; PHY 9A is a common choice."
+  },
+  {
+    "id": "H-W2",
+    "split": "heldout",
+    "category": "workload-tradeoff",
+    "secondary": [
+      "overlapping-requirements"
+    ],
+    "title": "Burned out Psych B.S. junior considering A.B.",
+    "titleZh": "心理学 B.S. 大三想改 A.B.",
+    "year": "3rd year",
+    "majors": [
+      "PSC"
+    ],
+    "opening": "I'm a psych B.S. student and the science requirements are crushing me. Is switching to the B.A. a bad idea?",
+    "facts": [
+      {
+        "id": "done",
+        "topic": "science/stat/prep courses completed",
+        "answer": "I've done BIS 2A, STA 13, PSC 41 and MAT 17A–17B. No physics yet.",
+        "critical": true
+      },
+      {
+        "id": "units",
+        "topic": "units / timeline",
+        "answer": "I have 110 units and want to graduate next spring.",
+        "critical": true
+      },
+      {
+        "id": "goal",
+        "topic": "career / grad school goals",
+        "answer": "I want to apply to clinical psychology PhD programs.",
+        "critical": true
+      },
+      {
+        "id": "language",
+        "topic": "foreign language coursework",
+        "answer": "I took three quarters of Spanish here already."
+      },
+      {
+        "id": "gpa",
+        "topic": "GPA",
+        "answer": "My GPA is 3.4."
+      }
+    ],
+    "checklist": [
+      {
+        "id": "c1",
+        "type": "elicit",
+        "text": "Learns completed prep and timeline",
+        "weight": 2,
+        "facts": [
+          "done",
+          "units"
+        ]
+      },
+      {
+        "id": "c2",
+        "type": "elicit",
+        "text": "Learns grad-school goal",
+        "weight": 1,
+        "facts": [
+          "goal"
+        ]
+      },
+      {
+        "id": "c3",
+        "type": "elicit",
+        "text": "Asks about foreign language (A.B. requirement)",
+        "weight": 2,
+        "facts": [
+          "language"
+        ]
+      },
+      {
+        "id": "c4",
+        "type": "cite",
+        "text": "Compares Psych A.B. vs B.S. requirements",
+        "weight": 2,
+        "docs": [
+          "PSC-AB",
+          "PSC-BS"
+        ]
+      },
+      {
+        "id": "c5",
+        "type": "cite",
+        "text": "Checks L&S degree-type change rule and A.B. foreign-language requirement",
+        "weight": 2,
+        "docs": [
+          "LS-CHANGE",
+          "LS-DEGREE",
+          "LS-DEGREQ-WEB"
+        ]
+      },
+      {
+        "id": "c6",
+        "type": "next_step",
+        "text": "Gives a balanced recommendation (grad-school considerations vs workload) and concrete next step",
+        "weight": 2
+      },
+      {
+        "id": "c7",
+        "type": "referral",
+        "text": "Suggests Psychology advisor / faculty mentor check",
+        "weight": 1
+      }
+    ],
+    "reference": "A.B. drops physics/bio-heavy B.S. prep; A.B. requires L&S foreign language (15 units — already done). Changing degree type follows L&S change rules. B.S. not required for PhD but research experience matters — advisor/faculty question."
+  },
+  {
+    "id": "H-W3",
+    "split": "heldout",
+    "category": "workload-tradeoff",
+    "secondary": [
+      "procedural-risk"
+    ],
+    "title": "Failing MAT 21D midterm in week 5 of winter",
+    "titleZh": "冬季第 5 周 MAT 21D 期中挂了",
+    "year": "2nd year",
+    "majors": [
+      "MAT"
+    ],
+    "opening": "I bombed my MAT 21D midterm. Should I drop it, take it P/NP, or just push through?",
+    "facts": [
+      {
+        "id": "date",
+        "topic": "current date / week of quarter",
+        "answer": "It's week 5 of Winter 2027 — around February 5.",
+        "critical": true
+      },
+      {
+        "id": "major",
+        "topic": "declared major",
+        "answer": "I'm a declared Mathematics B.S. major.",
+        "critical": true
+      },
+      {
+        "id": "grade",
+        "topic": "current standing in the course",
+        "answer": "I got 48% on the midterm; homework is fine. There's a final worth 40%."
+      },
+      {
+        "id": "load",
+        "topic": "total units this quarter",
+        "answer": "I'm taking 14 units including MAT 21D.",
+        "critical": true
+      },
+      {
+        "id": "pnp",
+        "topic": "P/NP units used so far",
+        "answer": "I haven't taken anything P/NP before."
+      }
+    ],
+    "checklist": [
+      {
+        "id": "c1",
+        "type": "elicit",
+        "text": "Learns the date/week",
+        "weight": 2,
+        "facts": [
+          "date"
+        ]
+      },
+      {
+        "id": "c2",
+        "type": "elicit",
+        "text": "Learns major status and unit load",
+        "weight": 2,
+        "facts": [
+          "major",
+          "load"
+        ]
+      },
+      {
+        "id": "c3",
+        "type": "cite",
+        "text": "Checks drop deadline and P/NP deadline for Winter 2027",
+        "weight": 2,
+        "docs": [
+          "UNI-CAL-QUARTERDATES",
+          "UNI-ADDDROP",
+          "UNI-GRADES"
+        ]
+      },
+      {
+        "id": "c4",
+        "type": "caution",
+        "text": "Notes the regular drop deadline (Feb 1, 20th day) has passed; a late drop would need a petition",
+        "weight": 2
+      },
+      {
+        "id": "c5",
+        "type": "caution",
+        "text": "Notes P/NP is still possible until the 40th day but a major course P/NP has consequences; L&S P limit; check with Math advisor",
+        "weight": 2
+      },
+      {
+        "id": "c6",
+        "type": "cite",
+        "text": "Checks late-action / repeat rules",
+        "weight": 1,
+        "docs": [
+          "UNI-LATE",
+          "UNI-GRADES"
+        ]
+      },
+      {
+        "id": "c7",
+        "type": "next_step",
+        "text": "Concrete plan (talk to instructor/advisor, tutoring, decide before P/NP deadline, repeat options)",
+        "weight": 2
+      },
+      {
+        "id": "c8",
+        "type": "referral",
+        "text": "Refers to Math advisor / L&S dean's office",
+        "weight": 1
+      }
+    ],
+    "reference": "Winter 2027: 20th day Feb 1 (drop 20-day courses); 40th day Mar 3 (opt for P/NP). After the drop deadline, a late drop goes through the dean's office (Late Actions). L&S limits P units to 1/4 of UC Davis units; whether Math accepts P/NP in major courses must be confirmed. Repeat allowed for D/F/NP grades."
+  },
+  {
+    "id": "H-W4",
+    "split": "heldout",
+    "category": "workload-tradeoff",
+    "secondary": [
+      "overlapping-requirements"
+    ],
+    "title": "Psych major wants to add a Linguistics double major while working",
+    "titleZh": "边打工边读心理+语言学双专业",
+    "year": "2nd year",
+    "majors": [
+      "PSC",
+      "LIN"
+    ],
+    "opening": "I want to double major in psychology and linguistics but I also work. Is that realistic?",
+    "facts": [
+      {
+        "id": "status",
+        "topic": "declared major, degree type, units",
+        "answer": "I'm a declared Psychology A.B. major with 75 units.",
+        "critical": true
+      },
+      {
+        "id": "work",
+        "topic": "work hours",
+        "answer": "I work 15 hours a week and can't cut it.",
+        "critical": true
+      },
+      {
+        "id": "lin",
+        "topic": "linguistics courses taken",
+        "answer": "I've taken LIN 1."
+      },
+      {
+        "id": "time",
+        "topic": "graduation timeline",
+        "answer": "I need to graduate in 4 years for financial reasons.",
+        "critical": true
+      },
+      {
+        "id": "language",
+        "topic": "foreign language progress",
+        "answer": "I've done two quarters of French."
+      }
+    ],
+    "checklist": [
+      {
+        "id": "c1",
+        "type": "elicit",
+        "text": "Learns work and timeline constraints",
+        "weight": 2,
+        "facts": [
+          "work",
+          "time"
+        ]
+      },
+      {
+        "id": "c2",
+        "type": "elicit",
+        "text": "Learns units / declared status",
+        "weight": 1,
+        "facts": [
+          "status"
+        ]
+      },
+      {
+        "id": "c3",
+        "type": "cite",
+        "text": "Checks L&S multiple-major rules (80% unique UD units, prep completed, 225 limit)",
+        "weight": 2,
+        "docs": [
+          "LS-CHANGE"
+        ]
+      },
+      {
+        "id": "c4",
+        "type": "cite",
+        "text": "Checks LIN A.B. requirements incl. language beyond the requirement",
+        "weight": 2,
+        "docs": [
+          "LIN-AB",
+          "LIN-MAJOR"
+        ]
+      },
+      {
+        "id": "c5",
+        "type": "next_step",
+        "text": "Compares double major vs Linguistics minor with a rough unit/quarter estimate",
+        "weight": 2
+      },
+      {
+        "id": "c6",
+        "type": "caution",
+        "text": "Notes double-major approval requires substantial preparatory work done and both departments' consent",
+        "weight": 1
+      },
+      {
+        "id": "c7",
+        "type": "referral",
+        "text": "Suggests meeting both advisors with an academic plan",
+        "weight": 1
+      }
+    ],
+    "reference": "Both majors in L&S; 80% of UD units must be unique; substantial prep done at request; consent of both departments + L&S; within 225 units. LIN needs 3rd quarter of French + one more. Minor may be the realistic option."
+  },
+  {
+    "id": "H-O1",
+    "split": "heldout",
+    "category": "overlapping-requirements",
+    "secondary": [
+      "unclear-interests"
+    ],
+    "title": "Math A.B. plus Applied Math B.S. double major",
+    "titleZh": "数学 A.B. + 应用数学 B.S. 双专业",
+    "year": "2nd year",
+    "majors": [
+      "MAT"
+    ],
+    "opening": "Can I double major in Mathematics and Applied Mathematics? They overlap a lot so it seems efficient.",
+    "facts": [
+      {
+        "id": "status",
+        "topic": "declared major",
+        "answer": "I'm declared in Mathematics A.B.",
+        "critical": true
+      },
+      {
+        "id": "courses",
+        "topic": "courses completed",
+        "answer": "I've finished MAT 21A–21D, 22A, 22B and ECS 32A."
+      },
+      {
+        "id": "why",
+        "topic": "motivation for double major",
+        "answer": "I want a stronger résumé for data science jobs.",
+        "critical": true
+      },
+      {
+        "id": "units",
+        "topic": "units completed",
+        "answer": "About 80 units."
+      }
+    ],
+    "checklist": [
+      {
+        "id": "c1",
+        "type": "elicit",
+        "text": "Asks motivation/goal",
+        "weight": 1,
+        "facts": [
+          "why"
+        ]
+      },
+      {
+        "id": "c2",
+        "type": "cite",
+        "text": "Checks L&S curriculum limitation on multiple majors (same department not allowed)",
+        "weight": 2,
+        "docs": [
+          "LS-CHANGE"
+        ]
+      },
+      {
+        "id": "c3",
+        "type": "caution",
+        "text": "Clearly states Math + Applied Math is not permitted (same department), without hedging it away",
+        "weight": 2
+      },
+      {
+        "id": "c4",
+        "type": "next_step",
+        "text": "Suggests alternatives aligned with data science (e.g., switch degree track, CS minor, statistics courses, Applied Math emphasis)",
+        "weight": 2
+      },
+      {
+        "id": "c5",
+        "type": "cite",
+        "text": "Checks relevant alternative requirements (CS minor or Applied Math B.S.)",
+        "weight": 1,
+        "docs": [
+          "ECS-MINOR",
+          "MAT-APM-BS"
+        ]
+      },
+      {
+        "id": "c6",
+        "type": "avoid",
+        "text": "Avoids recommending the not-permitted double major",
+        "weight": 2
+      },
+      {
+        "id": "c7",
+        "type": "referral",
+        "text": "Refers to Math advising to choose a track",
+        "weight": 1
+      }
+    ],
+    "reference": "L&S: combinations of majors offered in the same discipline or by the same department are not permitted (exception Art History/Art Studio). Alternatives: choose Applied Math B.S. or Math B.S.; CS minor; STA courses."
+  },
+  {
+    "id": "H-O2",
+    "split": "heldout",
+    "category": "overlapping-requirements",
+    "secondary": [
+      "procedural-risk"
+    ],
+    "title": "Psychology + Computer Science cross-college double major",
+    "titleZh": "心理学 + 计算机跨学院双专业",
+    "year": "2nd year",
+    "majors": [
+      "PSC",
+      "ECS"
+    ],
+    "opening": "I'm a psych major and want to add computer science as a second major. What do I need?",
+    "facts": [
+      {
+        "id": "status",
+        "topic": "declared major / college",
+        "answer": "Psychology B.S. in Letters & Science.",
+        "critical": true
+      },
+      {
+        "id": "courses",
+        "topic": "CS / math courses completed and grading",
+        "answer": "I've done ECS 32A, ECS 32B, MAT 21A and MAT 21B. I took MAT 21B as P/NP during a rough quarter.",
+        "critical": true
+      },
+      {
+        "id": "gpa",
+        "topic": "GPA",
+        "answer": "My UC GPA is 3.4.",
+        "critical": true
+      },
+      {
+        "id": "units",
+        "topic": "units completed",
+        "answer": "About 90 units."
+      },
+      {
+        "id": "ecs20",
+        "topic": "ECS 20 / discrete math",
+        "answer": "I haven't taken ECS 20 yet."
+      }
+    ],
+    "checklist": [
+      {
+        "id": "c1",
+        "type": "elicit",
+        "text": "Discovers the P/NP grade in MAT 21B",
+        "weight": 2,
+        "facts": [
+          "courses"
+        ]
+      },
+      {
+        "id": "c2",
+        "type": "elicit",
+        "text": "Learns GPA and units",
+        "weight": 1,
+        "facts": [
+          "gpa",
+          "units"
+        ]
+      },
+      {
+        "id": "c3",
+        "type": "cite",
+        "text": "Checks CS double-major criteria",
+        "weight": 2,
+        "docs": [
+          "ECS-CHANGE"
+        ]
+      },
+      {
+        "id": "c4",
+        "type": "cite",
+        "text": "Checks CoE requirements (letter grades, ≤135 units) and/or L&S multiple-major approvals",
+        "weight": 2,
+        "docs": [
+          "COE-FAQ",
+          "LS-CHANGE",
+          "UNI-REG-MAJOR"
+        ]
+      },
+      {
+        "id": "c5",
+        "type": "caution",
+        "text": "Flags MAT 21B P/NP likely fails the C-/GPA requirement and may need a letter-graded repeat",
+        "weight": 2
+      },
+      {
+        "id": "c6",
+        "type": "next_step",
+        "text": "Lists remaining: ECS 20, ECS 32C, ECS 34; attend the advising session; timeline before 135 units",
+        "weight": 2
+      },
+      {
+        "id": "c7",
+        "type": "referral",
+        "text": "Refers to CS change-of-major session and L&S",
+        "weight": 1
+      }
+    ],
+    "reference": "CS double major uses same criteria as change: C- or higher and 3.0 in MAT 21A, 21B, ECS 20, 32A-32C, 34; overall 3.0; CoE ≤135 units, letter grades. Cross-college double majors need approval from both colleges."
+  },
+  {
+    "id": "H-O3",
+    "split": "heldout",
+    "category": "overlapping-requirements",
+    "secondary": [
+      "unclear-interests"
+    ],
+    "title": "Linguistics major adding a Psychology minor",
+    "titleZh": "语言学专业加心理学辅修",
+    "year": "3rd year",
+    "majors": [
+      "LIN",
+      "PSC"
+    ],
+    "opening": "I'm a linguistics major. Can my psycholinguistics classes also count toward a psychology minor?",
+    "facts": [
+      {
+        "id": "status",
+        "topic": "declared major / units",
+        "answer": "Linguistics A.B., about 115 units.",
+        "critical": true
+      },
+      {
+        "id": "courses",
+        "topic": "relevant courses taken",
+        "answer": "I've taken LIN 171 and PSC 1. I'm planning PSC 132 next quarter.",
+        "critical": true
+      },
+      {
+        "id": "goal",
+        "topic": "goal",
+        "answer": "I want to show psych background for a cognitive science master's."
+      },
+      {
+        "id": "grading",
+        "topic": "grading mode for minor courses",
+        "answer": "I'd like to P/NP one of them if possible."
+      }
+    ],
+    "checklist": [
+      {
+        "id": "c1",
+        "type": "elicit",
+        "text": "Learns relevant courses taken/planned",
+        "weight": 2,
+        "facts": [
+          "courses"
+        ]
+      },
+      {
+        "id": "c2",
+        "type": "cite",
+        "text": "Checks Psychology minor requirements",
+        "weight": 2,
+        "docs": [
+          "PSC-MINOR",
+          "PSC-ADVISING"
+        ]
+      },
+      {
+        "id": "c3",
+        "type": "cite",
+        "text": "Checks LIN A.B. approved outside courses (PSC 132 counts toward LIN)",
+        "weight": 1,
+        "docs": [
+          "LIN-AB",
+          "LIN-MAJOR"
+        ]
+      },
+      {
+        "id": "c4",
+        "type": "caution",
+        "text": "Says overlap between major and minor courses must be checked against the minor's/college rules (doesn't promise double counting)",
+        "weight": 2
+      },
+      {
+        "id": "c5",
+        "type": "caution",
+        "text": "Checks P/NP rules for the minor",
+        "weight": 1
+      },
+      {
+        "id": "c6",
+        "type": "next_step",
+        "text": "Gives a concrete minor plan and how to declare (after one UD course with C or above, petition in OASIS)",
+        "weight": 2
+      },
+      {
+        "id": "c7",
+        "type": "referral",
+        "text": "Refers to Psychology/Yellow Cluster advising",
+        "weight": 1
+      }
+    ],
+    "reference": "Psych minor declared after completing one UD minor course with C or above (Change of Program petition). PSC 132 is an approved elective for LIN A.B. Double-counting limits must be confirmed; minor P/NP rules on the Psychology page."
+  },
+  {
+    "id": "H-O4",
+    "split": "heldout",
+    "category": "overlapping-requirements",
+    "secondary": [
+      "procedural-risk"
+    ],
+    "title": "Junior transfer in Math wants Computer Science",
+    "titleZh": "数学转学生想转计算机",
+    "year": "3rd year (transfer)",
+    "majors": [
+      "MAT",
+      "ECS"
+    ],
+    "opening": "I transferred into the math major this fall but I really want CS. Is switching possible for a transfer student?",
+    "facts": [
+      {
+        "id": "transfer",
+        "topic": "transfer status and units",
+        "answer": "I'm a junior transfer from De Anza; I came in with 95 units.",
+        "critical": true
+      },
+      {
+        "id": "courses",
+        "topic": "courses completed at community college",
+        "answer": "At De Anza I did calculus through multivariable, linear algebra, discrete math, and C++ programming I and II.",
+        "critical": true
+      },
+      {
+        "id": "gpa",
+        "topic": "GPA",
+        "answer": "My transfer GPA was 3.6; I don't have a UC GPA yet.",
+        "critical": true
+      },
+      {
+        "id": "quarter",
+        "topic": "quarter at UC Davis",
+        "answer": "This is my first quarter here, Fall 2026."
+      }
+    ],
+    "checklist": [
+      {
+        "id": "c1",
+        "type": "elicit",
+        "text": "Learns transfer units and completed coursework",
+        "weight": 2,
+        "facts": [
+          "transfer",
+          "courses"
+        ]
+      },
+      {
+        "id": "c2",
+        "type": "elicit",
+        "text": "Learns GPA / quarter at UCD",
+        "weight": 1,
+        "facts": [
+          "gpa",
+          "quarter"
+        ]
+      },
+      {
+        "id": "c3",
+        "type": "cite",
+        "text": "Checks CS change criteria incl. transfer-student note",
+        "weight": 2,
+        "docs": [
+          "ECS-CHANGE",
+          "LEGACY-CM-ECSI"
+        ]
+      },
+      {
+        "id": "c4",
+        "type": "cite",
+        "text": "Checks CoE change requirements (≥1 quarter, ≤135 units excluding AP/IB)",
+        "weight": 2,
+        "docs": [
+          "COE-FAQ"
+        ]
+      },
+      {
+        "id": "c5",
+        "type": "caution",
+        "text": "Notes unit count near/over the 135 cap could make it petition-only; articulation of CC courses must be verified",
+        "weight": 2
+      },
+      {
+        "id": "c6",
+        "type": "next_step",
+        "text": "Next steps: verify articulation (assist.org), attend CS session, compute units, keep Math on track as backup",
+        "weight": 2
+      },
+      {
+        "id": "c7",
+        "type": "referral",
+        "text": "Refers to CS advising session and Math mandatory transfer advising",
+        "weight": 1
+      }
+    ],
+    "reference": "CoE: ≥1 quarter (12 units) at UCD, ≤135 cumulative units (excluding AP/IB); transfers must also meet transfer admission requirements/GPAs. 95 + quarters needed may approach 135. Math requires transfer mandatory advising."
+  },
+  {
+    "id": "H-R1",
+    "split": "heldout",
+    "category": "procedural-risk",
+    "secondary": [
+      "unclear-interests"
+    ],
+    "title": "On academic probation in CS, wants Psychology",
+    "titleZh": "计算机学业察看，想转心理学",
+    "year": "1st year",
+    "majors": [
+      "ECS",
+      "PSC"
+    ],
+    "opening": "My first quarter in CS went really badly and I think I want psychology instead. Can I switch now?",
+    "facts": [
+      {
+        "id": "gpa",
+        "topic": "GPA / academic standing",
+        "answer": "My GPA after fall is 1.8 and I got an email about academic probation.",
+        "critical": true
+      },
+      {
+        "id": "status",
+        "topic": "current major / college",
+        "answer": "Computer Science B.S., College of Engineering.",
+        "critical": true
+      },
+      {
+        "id": "courses",
+        "topic": "courses taken / planned",
+        "answer": "Fall I took ECS 36A, MAT 21A and a writing class. I'm in PSC 1 this winter."
+      },
+      {
+        "id": "personal",
+        "topic": "reasons / personal circumstances",
+        "answer": "I was dealing with a family situation in the fall."
+      },
+      {
+        "id": "units",
+        "topic": "units",
+        "answer": "I passed 10 units in fall."
+      }
+    ],
+    "checklist": [
+      {
+        "id": "c1",
+        "type": "elicit",
+        "text": "Learns GPA/standing",
+        "weight": 2,
+        "facts": [
+          "gpa"
+        ]
+      },
+      {
+        "id": "c2",
+        "type": "elicit",
+        "text": "Asks about circumstances / support needs",
+        "weight": 1,
+        "facts": [
+          "personal"
+        ]
+      },
+      {
+        "id": "c3",
+        "type": "cite",
+        "text": "Checks academic standing / minimum progress rules",
+        "weight": 2,
+        "docs": [
+          "UNI-STANDING"
+        ]
+      },
+      {
+        "id": "c4",
+        "type": "cite",
+        "text": "Checks L&S change rules (good standing required) and/or CoE academic difficulty",
+        "weight": 2,
+        "docs": [
+          "LS-CHANGE",
+          "COE-FAQ"
+        ]
+      },
+      {
+        "id": "c5",
+        "type": "caution",
+        "text": "States a change into L&S requires good academic standing, so returning to good standing comes first",
+        "weight": 2
+      },
+      {
+        "id": "c6",
+        "type": "next_step",
+        "text": "Plan: meet CoE (EUO) advisor, recover GPA, PSC 1 + PSC 41 for letter grades, support resources",
+        "weight": 2
+      },
+      {
+        "id": "c7",
+        "type": "referral",
+        "text": "Refers to CoE advising (EUO) promptly",
+        "weight": 1
+      }
+    ],
+    "reference": "Probation below 2.0; minimum progress averages 12 units. L&S change requires good academic standing. CoE EUO advisors help plan return to good standing. PSC declaring later needs PSC 1+41 at 2.5."
+  },
+  {
+    "id": "H-R2",
+    "split": "heldout",
+    "category": "procedural-risk",
+    "secondary": [
+      "unclear-interests"
+    ],
+    "title": "Undeclared at 88 units",
+    "titleZh": "未定专业已修 88 学分",
+    "year": "3rd year",
+    "majors": [
+      "PSC",
+      "LIN"
+    ],
+    "opening": "My advisor email said something about a hold if I don't pick a major. I'm torn between psych and linguistics. How much time do I have?",
+    "facts": [
+      {
+        "id": "units",
+        "topic": "units completed",
+        "answer": "I have 88 units and I'm taking 14 this quarter.",
+        "critical": true
+      },
+      {
+        "id": "status",
+        "topic": "college / status",
+        "answer": "I'm Undeclared in L&S.",
+        "critical": true
+      },
+      {
+        "id": "grades",
+        "topic": "grades in PSC 1 / PSC 41 / LIN courses",
+        "answer": "PSC 1: B. PSC 41: C+. LIN 1: A-. All letter grades.",
+        "critical": true
+      },
+      {
+        "id": "lean",
+        "topic": "which they lean toward and why",
+        "answer": "I enjoy linguistics more, but psych feels more practical."
+      },
+      {
+        "id": "language",
+        "topic": "foreign language",
+        "answer": "I've finished three quarters of Japanese."
+      }
+    ],
+    "checklist": [
+      {
+        "id": "c1",
+        "type": "elicit",
+        "text": "Learns units and status",
+        "weight": 2,
+        "facts": [
+          "units",
+          "status"
+        ]
+      },
+      {
+        "id": "c2",
+        "type": "elicit",
+        "text": "Learns grades in key courses",
+        "weight": 2,
+        "facts": [
+          "grades"
+        ]
+      },
+      {
+        "id": "c3",
+        "type": "cite",
+        "text": "Checks the L&S 90-unit declaration rule and hold",
+        "weight": 2,
+        "docs": [
+          "LS-CHANGE",
+          "LS-UNDECLARED"
+        ]
+      },
+      {
+        "id": "c4",
+        "type": "cite",
+        "text": "Checks the Psychology declaration GPA rule",
+        "weight": 2,
+        "docs": [
+          "PSC-ADVISING",
+          "PSC-AB"
+        ]
+      },
+      {
+        "id": "c5",
+        "type": "caution",
+        "text": "Computes PSC 1 (3.0) + PSC 41 (2.3) ≈ 2.65 ≥ 2.5 correctly, or flags the calculation for advisor confirmation",
+        "weight": 1
+      },
+      {
+        "id": "c6",
+        "type": "next_step",
+        "text": "Urges declaring this quarter; plan for LIN (language done; one more Japanese) or PSC",
+        "weight": 2
+      },
+      {
+        "id": "c7",
+        "type": "referral",
+        "text": "Refers to L&S advising and department advisors immediately",
+        "weight": 1
+      }
+    ],
+    "reference": "Undeclared L&S students must declare by 90 units or a registration hold is placed. PSC 1 + PSC 41 combined 2.65 meets 2.5. LIN A.B. requires one Japanese course beyond the requirement. Either is feasible; act this quarter."
+  },
+  {
+    "id": "H-R3",
+    "split": "heldout",
+    "category": "procedural-risk",
+    "secondary": [
+      "workload-tradeoff"
+    ],
+    "title": "Senior near the unit limit wants to add math (Chinese)",
+    "titleZh": "大四临近学分上限想加数学",
+    "year": "4th year",
+    "majors": [
+      "PSC",
+      "MAT"
+    ],
+    "opening": "我是心理学大四学生，突然对数学很感兴趣，想加一个数学辅修或者干脆转数学，可以吗？",
+    "facts": [
+      {
+        "id": "units",
+        "topic": "units completed (excluding AP)",
+        "answer": "我已经修了 205 个学分，不算 AP 学分。",
+        "critical": true
+      },
+      {
+        "id": "grad",
+        "topic": "graduation plan / filed to graduate",
+        "answer": "我本来打算今年春季毕业，还没申请毕业。",
+        "critical": true
+      },
+      {
+        "id": "math",
+        "topic": "math courses taken",
+        "answer": "我上过 MAT 17A、17B 和 STA 13。",
+        "critical": true
+      },
+      {
+        "id": "major",
+        "topic": "current major",
+        "answer": "心理学 B.S.，文理学院。"
+      }
+    ],
+    "checklist": [
+      {
+        "id": "c1",
+        "type": "elicit",
+        "text": "Learns units and graduation plan",
+        "weight": 2,
+        "facts": [
+          "units",
+          "grad"
+        ]
+      },
+      {
+        "id": "c2",
+        "type": "elicit",
+        "text": "Learns math background",
+        "weight": 1,
+        "facts": [
+          "math"
+        ]
+      },
+      {
+        "id": "c3",
+        "type": "cite",
+        "text": "Checks L&S 225-unit limit / 200-unit hold",
+        "weight": 2,
+        "docs": [
+          "LS-DEGREE"
+        ]
+      },
+      {
+        "id": "c4",
+        "type": "cite",
+        "text": "Checks math minor requirements",
+        "weight": 2,
+        "docs": [
+          "MAT-MINOR"
+        ]
+      },
+      {
+        "id": "c5",
+        "type": "caution",
+        "text": "States changing to a Math major is unrealistic within 20 remaining units; senior-standing restrictions",
+        "weight": 2
+      },
+      {
+        "id": "c6",
+        "type": "next_step",
+        "text": "Suggests realistic alternatives (take a few math courses as electives; minor only if it fits; post-bacc/grad options)",
+        "weight": 2
+      },
+      {
+        "id": "c7",
+        "type": "referral",
+        "text": "Refers to L&S dean's office about the unit limit",
+        "weight": 1
+      }
+    ],
+    "reference": "L&S: requirements within 180-225 units (excluding AP/IB); hold at 200 units requiring an academic plan; beyond 225 rarely allowed. Math minor builds on MAT 21 series; 17A/B students would need 21-series. Senior standing (135+) requires consulting college advisors. Reply in Chinese."
+  },
+  {
+    "id": "H-R4",
+    "split": "heldout",
+    "category": "procedural-risk",
+    "secondary": [
+      "workload-tradeoff"
+    ],
+    "title": "D in ECS 36B: repeat, P/NP or move on?",
+    "titleZh": "ECS 36B 拿了 D：重修、P/NP 还是继续",
+    "year": "2nd year",
+    "majors": [
+      "ECS"
+    ],
+    "opening": "I got a D in ECS 36B. Do I have to retake it? Can I retake it Pass/No Pass so it doesn't hurt my GPA?",
+    "facts": [
+      {
+        "id": "major",
+        "topic": "major / college",
+        "answer": "I'm a CS B.S. major in Engineering.",
+        "critical": true
+      },
+      {
+        "id": "next",
+        "topic": "plans for next courses (ECS 36C etc.)",
+        "answer": "I wanted to take ECS 36C next quarter.",
+        "critical": true
+      },
+      {
+        "id": "gpa",
+        "topic": "GPA",
+        "answer": "My overall GPA is 2.6.",
+        "critical": true
+      },
+      {
+        "id": "history",
+        "topic": "repeat history / previous repeats",
+        "answer": "I've never repeated a class before."
+      }
+    ],
+    "checklist": [
+      {
+        "id": "c1",
+        "type": "elicit",
+        "text": "Learns next planned course and GPA",
+        "weight": 2,
+        "facts": [
+          "next",
+          "gpa"
+        ]
+      },
+      {
+        "id": "c2",
+        "type": "cite",
+        "text": "Checks ECS 36C prerequisite (C- or better in 36B)",
+        "weight": 2,
+        "docs": [
+          "COURSES"
+        ]
+      },
+      {
+        "id": "c3",
+        "type": "cite",
+        "text": "Checks repeat / P/NP rules",
+        "weight": 2,
+        "docs": [
+          "UNI-GRADES"
+        ]
+      },
+      {
+        "id": "c4",
+        "type": "caution",
+        "text": "States a letter-graded course cannot be repeated P/NP",
+        "weight": 2
+      },
+      {
+        "id": "c5",
+        "type": "cite",
+        "text": "Checks CoE P/NP / academic standing rules",
+        "weight": 1,
+        "docs": [
+          "COE-PNP",
+          "COE-FAQ",
+          "UNI-STANDING"
+        ]
+      },
+      {
+        "id": "c6",
+        "type": "next_step",
+        "text": "Plan: repeat ECS 36B for a letter grade before 36C; support resources",
+        "weight": 2
+      },
+      {
+        "id": "c7",
+        "type": "referral",
+        "text": "Refers to CS / CoE advising",
+        "weight": 1
+      }
+    ],
+    "reference": "UC Davis: a course with a previous letter grade may not be repeated P/NP. ECS 36C requires C- or better in 36B (check course record). CoE major courses require letter grades. Repeating a D replaces GPA effect per university rules."
+  }
+]
