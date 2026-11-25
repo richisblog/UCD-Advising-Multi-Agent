@@ -97,6 +97,8 @@ export function newRun(opts: {
       modelMs: 0,
       wallMs: 0,
       simulatorTokens: 0,
+      redundantActions: 0,
+      checklistUpdates: 0,
     },
   }
 }

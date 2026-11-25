@@ -237,3 +237,79 @@ test('Lab consult: pending question is answered by the user, then the run finish
   }
   assert.fail('consult run did not finish')
 })
+
+test('checklist: grounded updates only, redundant actions counted, stop hint when resolved', async () => {
+  const model = scripted({
+    advisor: [
+      {
+        action: 'search',
+        query: 'AP Calculus AB score credit MAT 021A',
+        target: 'q2',
+        checklist: [
+          { question: 'What AP calculus score does the student have?', kind: 'student' },
+          { question: 'What credit does that score give?', kind: 'policy' },
+        ],
+      },
+      {
+        action: 'ask_student',
+        question: 'What was your AP calculus exam score?',
+        target: 'q1',
+        // policy answered without evidence -> rejected; student answered with an invented quote -> rejected
+        checklist_update: [
+          { id: 'q2', status: 'answered', evidence: ['NOT-RETRIEVED#1'] },
+          { id: 'q1', status: 'answered', facts: ['I got a 5'] },
+        ],
+      },
+      {
+        action: 'search',
+        query: 'AP calculus',
+        target: 'q1',
+        checklist_update: [
+          { id: 'q1', status: 'answered', facts: ['got a 3'] },
+          { id: 'q2', status: 'answered', evidence: ['__AP__'] },
+        ],
+      },
+      { action: 'final', report: { reply: 'done' } },
+    ],
+  })
+  const run = makeRun('A')
+  // resolve the placeholder to a chunk the first search really returns
+  const apId = corpus.search('AP Calculus AB score credit MAT 021A', undefined, 4)[0]!.id
+  const step3 = (model as unknown as { calls: unknown[] }) && apId
+  const original = model
+  const patched: typeof model = Object.assign(
+    async (req: Parameters<typeof model>[0]) => {
+      const res = await original(req)
+      return { ...res, text: res.text.replace('__AP__', step3) }
+    },
+    { calls: original.calls },
+  )
+  await execute({ run, corpus, model: patched, opening: dev1.opening, student: keywordStudent(dev1), signal: new AbortController().signal })
+  assert.equal(run.status, 'done')
+  const events = run.trace.filter((e) => e.kind === 'checklist')
+  assert.ok(events.length >= 2)
+  const rejected = events.flatMap((e) => (e.kind === 'checklist' ? e.rejected.map((r) => r.id) : []))
+  assert.deepEqual(rejected.sort(), ['q1', 'q2'])
+  assert.equal(run.checklist!.find((i) => i.id === 'q1')!.status, 'answered')
+  assert.equal(run.checklist!.find((i) => i.id === 'q2')!.status, 'answered')
+  assert.equal(run.usage.redundantActions, 1) // the 3rd search targeted q1 after it was answered
+  const lastObservation = original.calls.at(-1)!.messages.filter((m) => m.role === 'user').at(-1)!.content
+  assert.match(lastObservation, /All needs are resolved/)
+})
+
+test('Condition B keeps enough calls for the final answer', async () => {
+  const model = scripted({
+    personal: [
+      { action: 'delegate', role: 'dept-ecs', question: 'first question' },
+      { action: 'delegate', role: 'dept-ecs', question: 'second question' },
+      { action: 'final', report: { reply: 'done' } },
+    ],
+    'dept-ecs': Array.from({ length: 30 }, () => ({ action: 'search', query: 'change of major' })),
+  })
+  const run = makeRun('B', { ...defaultBudget, modelCalls: 9 })
+  await execute({ run, corpus, model, opening: dev1.opening, student: keywordStudent(dev1), signal: new AbortController().signal })
+  assert.equal(run.status, 'done')
+  assert.equal(run.stop, 'final')
+  assert.equal(run.usage.specialistCalls, 1) // the second delegation was refused to protect the final answer
+  assert.ok(run.trace.some((e) => e.kind === 'limit' && /no budget left/.test(e.detail)))
+})

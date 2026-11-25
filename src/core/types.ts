@@ -96,6 +96,23 @@ export interface Scenario {
 
 // --------------------------------------------------------------- budgets
 
+export type NeedStatus = 'open' | 'partial' | 'answered' | 'blocked'
+/** One information need on the lead agent's checklist. */
+export interface InfoNeed {
+  id: string
+  question: string
+  kind: 'student' | 'policy'
+  status: NeedStatus
+  /** retrieved evidence ids that support it (policy needs) */
+  evidence: string[]
+  /** quotes of the student's own words (student needs) */
+  facts: string[]
+  note: string
+  /** lead-agent step when it was created / resolved */
+  openedAt: number
+  resolvedAt?: number
+}
+
 export interface Budget {
   /** total input+output tokens across every model call of the condition */
   tokens: number
@@ -111,6 +128,8 @@ export interface Budget {
   stepOutputTokens: number
   finalOutputTokens: number
   requestMs: number
+  /** information checklist on/off (experiment factor) */
+  checklist: boolean
 }
 
 export const defaultBudget: Budget = {
@@ -123,6 +142,7 @@ export const defaultBudget: Budget = {
   stepOutputTokens: 1500,
   finalOutputTokens: 2200,
   requestMs: 120_000,
+  checklist: true,
 }
 
 // --------------------------------------------------------------- run record
@@ -170,6 +190,15 @@ export type TraceEvent =
   | { at: number; kind: 'thought'; agent: string; text: string }
   | { at: number; kind: 'limit'; detail: string }
   | { at: number; kind: 'error'; detail: string }
+  | {
+      at: number
+      kind: 'checklist'
+      agent: string
+      items: InfoNeed[]
+      changed: string[]
+      rejected: { id: string; reason: string }[]
+      created: boolean
+    }
 
 export interface Finding {
   claim: string
@@ -221,6 +250,8 @@ export interface RunRecord {
   /** every evidence id retrieved in the run, with the agent that saw it */
   retrieved: Record<string, string[]>
   disclosed: string[]
+  /** final state of the information checklist (when enabled) */
+  checklist?: InfoNeed[]
   report?: FinalReport
   stop?: string
   usage: {
@@ -235,6 +266,9 @@ export interface RunRecord {
     modelMs: number
     wallMs: number
     simulatorTokens: number
+    /** research actions aimed at an already-resolved checklist need */
+    redundantActions: number
+    checklistUpdates: number
   }
   score?: RunScore
 }

@@ -1,4 +1,5 @@
 import { estimateTokens, MalformedOutput, type ChatMessage } from './llm.js'
+import { processChecklist } from './checklist.js'
 import { PROMPT_VERSION, ROLES, personalSystem, specialistSystem, type Role } from './prompts.js'
 import {
   emergencyReport,
@@ -11,6 +12,9 @@ import {
   type RunContext,
 } from './runtime.js'
 import type { Finding } from './types.js'
+
+const FORCE_FINAL =
+  'SYSTEM: research is closed — the budget is nearly used. Do not search, ask or delegate. Reply ONLY with {"action": "final", "report": {...}} now, using what you already know and listing the gaps.'
 
 export const MULTI_VERSION = `${PROMPT_VERSION}/B`
 export const ALL_ROLES = Object.keys(ROLES) as Role[]
@@ -30,21 +34,21 @@ interface Board {
 export async function runMulti(ctx: RunContext): Promise<void> {
   const { run, budget, ledger } = ctx
   const board: Board = { facts: {}, findings: [], asked: new Set() }
-  const system = personalSystem(budget.clarifications, ALL_ROLES)
+  const system = personalSystem(budget.clarifications, ALL_ROLES, budget.checklist)
   const messages: ChatMessage[] = [{ role: 'user', content: `STUDENT (opening message): ${ctx.opening}` }]
   emit(ctx, { kind: 'student', text: ctx.opening })
 
-  const contextSize = () => estimateTokens(system) + messages.reduce((n, m) => n + estimateTokens(m.content), 0)
+  const contextSize = () => (estimateTokens(system) + messages.reduce((n, m) => n + estimateTokens(m.content), 0)) * ledger.inputRatio
+  // keep room for the final answer plus one retry if the model does not comply at once
   const mustFinish = () =>
-    ledger.remainingCalls <= 2 || ledger.remainingTokens < contextSize() + budget.finalOutputTokens + 600
+    ledger.remainingCalls <= 3 || ledger.remainingTokens < 2 * (contextSize() + budget.finalOutputTokens) + 800
+  let forced = false
 
   try {
     for (let step = 0; step < budget.modelCalls; step++) {
-      if (mustFinish()) {
-        messages.push({
-          role: 'user',
-          content: 'SYSTEM: team budget nearly exhausted. Reply now with action "final" and the full report.',
-        })
+      if (!forced && mustFinish()) {
+        forced = true
+        messages.push({ role: 'user', content: FORCE_FINAL })
         emit(ctx, { kind: 'limit', detail: 'forced final answer (budget)' })
       }
       const out = await ledger.json<Record<string, unknown>>(
@@ -58,7 +62,19 @@ export async function runMulti(ctx: RunContext): Promise<void> {
       mergeFacts(board, out.facts)
       if (typeof out.thought === 'string' && out.thought) emit(ctx, { kind: 'thought', agent: 'personal', text: out.thought.slice(0, 600) })
       const action = String(out.action ?? '')
+      const checklist = processChecklist(ctx, 'personal', out, action, step + 1, forced || mustFinish())
+      const need = ctx.run.checklist?.find((i) => i.id === String(out.target ?? ''))
       let observation: string
+      if (forced && action !== 'final') {
+        // research is closed: never execute another action, insist on the answer
+        if (out.report) {
+          run.report = normalizeReport(out.report)
+          run.stop = 'forced-final'
+          return
+        }
+        messages.push({ role: 'user', content: FORCE_FINAL })
+        continue
+      }
       if (action === 'final') {
         run.report = normalizeReport(out.report)
         if (Object.keys(board.facts).length && !run.report.profile.length)
@@ -70,12 +86,12 @@ export async function runMulti(ctx: RunContext): Promise<void> {
       } else if (action === 'delegate') {
         const role = ALL_ROLES.find((r) => r === out.role)
         observation = role
-          ? await delegate(ctx, board, 'personal', role, String(out.question ?? ''), 0)
+          ? await delegate(ctx, board, 'personal', role, need ? `[${need.id}] ${String(out.question ?? '')}` : String(out.question ?? ''), 0)
           : `OBSERVATION: unknown specialist "${String(out.role)}". Valid: ${ALL_ROLES.join(', ')}.`
       } else {
         observation = `OBSERVATION: unknown action "${action}". Use ask_student, delegate or final.`
       }
-      messages.push({ role: 'user', content: observation })
+      messages.push({ role: 'user', content: checklist ? `${observation}\n\n${checklist}` : observation })
     }
     run.stop = 'step-limit'
     run.report = emergencyReport(ctx, 'step limit')
@@ -106,6 +122,13 @@ async function delegate(
   const { run, budget } = ctx
   const key = `${role}|${question.trim().toLowerCase()}`
   if (board.asked.has(key)) return `OBSERVATION: ${role} already answered this exact question; see earlier findings.`
+  // never let a specialist spend the calls/tokens the Personal Agent needs for its final answer
+  const reserveCalls = budget.specialistSteps + 3
+  const reserveTokens = budget.specialistSteps * (budget.stepOutputTokens + 2500) + budget.finalOutputTokens * 2
+  if (ctx.ledger.remainingCalls < reserveCalls || ctx.ledger.remainingTokens < reserveTokens) {
+    emit(ctx, { kind: 'limit', detail: 'no budget left for another specialist task' })
+    return 'OBSERVATION: not enough budget left for another specialist task. Finish now with action "final" using the findings you have.'
+  }
   if (run.usage.specialistCalls >= budget.specialistCalls) {
     emit(ctx, { kind: 'limit', detail: 'specialist-call limit reached' })
     return 'OBSERVATION: specialist-call limit reached. Do not delegate again; finish with the findings you have.'

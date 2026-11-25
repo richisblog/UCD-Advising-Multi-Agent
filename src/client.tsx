@@ -6,9 +6,10 @@ import type {} from '@deepseek-ai/dsh-client-ui-conversation/client'
 import type {} from '@deepseek-ai/dsh-client-ui-renderer/client'
 import type {} from '@deepseek-ai/dsh-client-ui-sidebar-right/client'
 import type {} from '@deepseek-ai/dsh-client-ui-slots'
-import { channel, endpoints, type AnalysisResult, type Endpoint, type EvidenceView, type LabState, type RunSummary } from './contract.js'
-import type { RunRecord, Scenario, TraceEvent } from './core/types.js'
-import { FlowView } from './flow.js'
+import { channel, endpoints, type AnalysisResult, type Endpoint, type LabState, type RunSummary } from './contract.js'
+import type { PairedRow } from './core/analysis.js'
+import { CAT_ZH, errText, fmt, kTok, lbl, readLang, saveJson, saveLang, secs, SPLIT_ZH, STATUS_ZH, titleOf, TYPE_ZH, type LangPref, type T } from './ui/i18n.js'
+import { CompareStrip, RunCard, type Request } from './ui/Run.js'
 import style from './style.css'
 
 export const name = 'pathfinder-lab-client'
@@ -16,389 +17,15 @@ export const inject = ['slots', 'sidebarRightTabs', 'sidebarRight', 'connection'
 
 const id = 'dsh-plugin-pathfinder-lab/panel'
 const kind = 'pathfinder-lab'
-
-type T = (en: string, zh: string) => string
 type Locale = { get: () => string; subscribe: (listener: () => void) => () => void }
-type Request = <R = unknown>(endpoint: Endpoint, payload?: unknown) => Promise<R>
 
-const ROLE_ZH: Record<string, string> = {
-  advisor: '单 Agent 顾问',
-  personal: '个人顾问',
-  university: '校级政策',
-  'college-ls': '文理学院',
-  'college-coe': '工程学院',
-  'dept-ecs': '计算机系',
-  'dept-psc': '心理学系',
-  'dept-lin': '语言学系',
-  'dept-mat': '数学系',
-}
-const CAT_ZH: Record<string, string> = {
-  'unclear-interests': '兴趣不明确',
-  'uncertain-preparation': '准备情况不确定',
-  'workload-tradeoff': '学业负担取舍',
-  'overlapping-requirements': '要求交叉重叠',
-  'procedural-risk': '程序/期限风险',
-}
-
-const STATUS_ZH: Record<string, string> = { running: '进行中', done: '完成', failed: '失败', cancelled: '已取消', stopped: '已停止' }
-const TYPE_ZH: Record<string, string> = { elicit: '追问事实', cite: '核对来源', next_step: '下一步', referral: '转介顾问', caution: '风险提示', avoid: '避免错误' }
-const METHOD_ZH: Record<string, string> = { auto: '自动', judge: '评审模型', rule: '规则' }
-const VERDICT_ZH: Record<string, string> = { supported: '有依据', partial: '部分有依据', unsupported: '无依据', contradicted: '与证据矛盾', uncited: '未引用' }
-const SPLIT_ZH: Record<string, string> = { dev: '开发', heldout: '留出' }
-const LANG_KEY = 'pathfinder-lab-language'
-type LangPref = 'follow' | 'en' | 'zh'
-function readLang(): LangPref {
-  try {
-    const v = window.localStorage.getItem(LANG_KEY)
-    return v === 'en' || v === 'zh' ? v : 'follow'
-  } catch {
-    return 'follow'
-  }
-}
-function saveLang(v: LangPref) {
-  try {
-    window.localStorage.setItem(LANG_KEY, v)
-  } catch {
-    /* storage unavailable: the choice still applies to this view */
-  }
-}
-/** Label from a zh map when the UI is in Chinese. */
-const lbl = (t: T, map: Record<string, string>, key: string) => t(key, map[key] ?? key)
-const ERROR_ZH: [RegExp, string][] = [
-  [/Choose a DeepSeek model/i, '请先在 Harness 设置里选择 DeepSeek 模型。'],
-  [/Type a question first/i, '请先输入问题。'],
-  [/already running/i, '已有实验在运行，请等待或先停止。'],
-  [/Pick at least one scenario/i, '请至少选择一个案例。'],
-  [/not waiting for an answer/i, '这次运行当前没有在等待回答。'],
-  [/Every planned run already finished/i, '所有计划中的运行都已完成。'],
-  [/Experiment not found/i, '找不到该实验。'],
-  [/Wait for the running experiment/i, '请等待正在运行的实验结束。'],
-  [/authorization failed/i, 'DeepSeek 授权失败，请在 Harness 设置里登录或更新服务商。'],
-  [/Paused after repeated network failures/i, '连续网络失败，实验已暂停；可在「结果」页续跑。'],
-]
-const errText = (t: T, message: string) => t(message, ERROR_ZH.find(([re]) => re.test(message))?.[1] ?? message)
-const titleOf = (t: T, s: { title: string; titleZh?: string }) => t(s.title, s.titleZh ?? s.title)
-
-function saveJson(value: unknown, file: string) {
-  const url = URL.createObjectURL(new Blob([JSON.stringify(value, null, 2)], { type: 'application/json' }))
-  const a = document.createElement('a')
-  a.href = url
-  a.download = file
-  a.click()
-  setTimeout(() => URL.revokeObjectURL(url), 1000)
-}
-const fmt = (x: number | undefined, d = 1) => (x == null || !Number.isFinite(x) ? '—' : x.toFixed(d))
-const secs = (ms: number) => `${Math.round(ms / 1000)}s`
-
-// ------------------------------------------------------------------ pieces
-
-function Evidence({ ids, evidence, t }: { ids: string[]; evidence: Record<string, EvidenceView>; t: T }) {
-  const [open, setOpen] = useState<string>()
-  if (!ids.length) return null
-  const ev = open ? evidence[open] : undefined
-  return (
-    <span className="pfl-ev">
-      {ids.map((x) => (
-        <button
-          key={x}
-          type="button"
-          className={`pfl-chip ${evidence[x] ? '' : 'bad'} ${open === x ? 'on' : ''}`}
-          title={evidence[x] ? evidence[x].title : t('Not retrieved in this run', '本次运行未检索到该证据')}
-          onClick={() => setOpen(open === x ? undefined : x)}
-        >
-          {x}
-        </button>
-      ))}
-      {ev && (
-        <span className="pfl-evcard">
-          <strong>{ev.title}</strong>
-          <small>
-            {ev.heading} · {ev.scope} · {t('retrieved', '抓取')} {ev.retrievedAt}
-            {ev.legacy && ` · ${t('LEGACY record', '旧版记录')}`}
-          </small>
-          <span className="pfl-evtext">{ev.text}</span>
-          {ev.url && (
-            <a href={ev.url} target="_blank" rel="noreferrer">
-              {t('Open source', '打开原文')}
-            </a>
-          )}
-        </span>
-      )}
-    </span>
-  )
-}
-
-function Report({ run, evidence, t }: { run: RunRecord; evidence: Record<string, EvidenceView>; t: T }) {
-  const r = run.report
-  if (!r) return null
-  return (
-    <div className="pfl-report">
-      <p className="pfl-reply">{r.reply}</p>
-      {r.options.length > 0 && (
-        <section>
-          <h4>{t('Options', '可选路径')}</h4>
-          {r.options.map((o, i) => (
-            <div key={i} className="pfl-opt">
-              <strong>{o.title}</strong>
-              {o.why && <p>{o.why}</p>}
-              {o.steps.length > 0 && (
-                <ol>
-                  {o.steps.map((s, j) => (
-                    <li key={j}>{s}</li>
-                  ))}
-                </ol>
-              )}
-              <Evidence ids={o.evidence} evidence={evidence} t={t} />
-            </div>
-          ))}
-        </section>
-      )}
-      {r.claims.length > 0 && (
-        <section>
-          <h4>{t('Checked claims', '核对过的规则')}</h4>
-          <ul>
-            {r.claims.map((c, i) => {
-              const verdict = run.score?.claims[i]?.verdict
-              return (
-                <li key={i}>
-                  {c.critical && <span className="pfl-tag">{t('critical', '关键')}</span>}
-                  {verdict && <span className={`pfl-tag v-${verdict}`}>{lbl(t, VERDICT_ZH, verdict)}</span>} {c.text} <Evidence ids={c.evidence} evidence={evidence} t={t} />
-                </li>
-              )
-            })}
-          </ul>
-        </section>
-      )}
-      {r.uncertain.length > 0 && (
-        <section>
-          <h4>{t('Still uncertain', '仍待确认')}</h4>
-          <ul>
-            {r.uncertain.map((x, i) => (
-              <li key={i}>{x}</li>
-            ))}
-          </ul>
-        </section>
-      )}
-      {r.advisor_questions.length > 0 && (
-        <section>
-          <h4>{t('Questions for your advisor', '带给顾问的问题')}</h4>
-          <ul>
-            {r.advisor_questions.map((x, i) => (
-              <li key={i}>{x}</li>
-            ))}
-          </ul>
-        </section>
-      )}
-      {r.referral.needed && (
-        <p className="pfl-ref">
-          ➜ {r.referral.office}
-          {r.referral.reason && ` — ${r.referral.reason}`}
-        </p>
-      )}
-    </div>
-  )
-}
-
-function eventLine(e: TraceEvent, t: T): { who: string; text: string; cls: string } {
-  const who = (a: string) => t(a, ROLE_ZH[a] ?? a)
-  switch (e.kind) {
-    case 'student':
-      return { who: t('Student', '学生'), text: e.text, cls: 'stu' }
-    case 'ask':
-      return { who: who(e.agent), text: `❓ ${e.question}\n↳ ${e.reply}`, cls: 'ask' }
-    case 'search':
-      return { who: who(e.agent), text: `🔎 "${e.query}" [${e.scope}] → ${e.results.join(', ') || '∅'}${e.repeated ? ` (${t('repeat', '重复')})` : ''}`, cls: 'tool' }
-    case 'course':
-      return { who: who(e.agent), text: `📘 ${e.code} ${e.found ? '' : t('(not found)', '（未找到）')}`, cls: 'tool' }
-    case 'delegate':
-      return { who: who(e.from), text: `→ ${who(e.to)}: ${e.question}`, cls: 'hand' }
-    case 'report':
-      return { who: who(e.agent), text: e.findings.map((f) => `• ${f.claim} [${f.evidence.join(', ')}]`).join('\n') || t('no findings', '没有结论'), cls: 'rep' }
-    case 'handoff':
-      return { who: who(e.from), text: `⇢ ${who(e.to)} ${e.accepted ? '' : `✕ ${e.reason}`}: ${e.question}`, cls: 'hand' }
-    case 'thought':
-      return { who: who(e.agent), text: e.text, cls: 'thought' }
-    case 'limit':
-      return { who: t('Budget', '预算'), text: e.detail, cls: 'limit' }
-    case 'error':
-      return { who: t('Error', '错误'), text: e.detail, cls: 'limit' }
-  }
-}
-
-function Trace({ run, t, thoughts }: { run: RunRecord; t: T; thoughts: boolean }) {
-  return (
-    <ol className="pfl-trace">
-      {run.trace
-        .filter((e) => thoughts || e.kind !== 'thought')
-        .map((e, i) => {
-          const l = eventLine(e, t)
-          return (
-            <li key={i} className={l.cls}>
-              <b>{l.who}</b>
-              <span>{l.text}</span>
-            </li>
-          )
-        })}
-    </ol>
-  )
-}
-
-function Usage({ run, t }: { run: RunRecord; t: T }) {
-  const u = run.usage
-  const b = run.budget
-  const bar = (v: number, max: number, label: string) => (
-    <span className="pfl-meter" title={`${label} ${v}/${max}`}>
-      <span style={{ width: `${Math.min(100, (100 * v) / Math.max(1, max))}%` }} />
-      <em>
-        {label} {v}/{max}
-      </em>
-    </span>
-  )
-  return (
-    <div className="pfl-usage">
-      {bar(u.tokens, b.tokens, 'tokens')}
-      {bar(u.modelCalls, b.modelCalls, t('calls', '调用'))}
-      {bar(u.toolCalls, b.toolCalls, t('tools', '工具'))}
-      {bar(u.clarifications, b.clarifications, t('asks', '追问'))}
-      {run.condition === 'B' && bar(u.specialistCalls, b.specialistCalls, t('specialists', '专家'))}
-    </div>
-  )
-}
-
-function RunCard({
-  run,
-  state,
-  request,
-  refresh,
-  t,
-  scenario,
-}: {
-  run: RunRecord
-  state: LabState
-  request: Request
-  refresh: () => void
-  t: T
-  scenario?: Scenario
-}) {
-  const [answer, setAnswer] = useState('')
-  const [facts, setFacts] = useState<string[]>([])
-  const [thoughts, setThoughts] = useState(false)
-  const [tab, setTab] = useState<'flow' | 'answer' | 'trace' | 'score'>('flow')
-  const pending = state.pending.find((p) => p.runId === run.id)
-  const send = async () => {
-    if (!answer.trim()) return
-    await request(endpoints.answer as Endpoint, { runId: run.id, text: answer, facts })
-    setAnswer('')
-    setFacts([])
-    refresh()
-  }
-  return (
-    <article className={`pfl-run c-${run.condition}`}>
-      <header>
-        <span className="pfl-badge">{run.condition === 'A' ? t('A · Single agent', 'A · 单 Agent') : t('B · Multi-agent', 'B · 多 Agent')}</span>
-        <span className={`pfl-status s-${run.status}`}>{lbl(t, STATUS_ZH, run.status)}</span>
-        <span className="pfl-dim">
-          {secs(run.usage.wallMs || Date.now() - run.startedAt)} · {run.stop ?? ''}
-        </span>
-        {run.status === 'running' && (
-          <button type="button" className="pfl-link" onClick={() => request('stop', { runId: run.id }).then(refresh)}>
-            {t('Stop', '停止')}
-          </button>
-        )}
-      </header>
-      <Usage run={run} t={t} />
-      {pending && (
-        <div className="pfl-pending">
-          <strong>{pending.question}</strong>
-          {scenario && (
-            <div className="pfl-facts">
-              <small>{t('Researcher view: hidden facts (tick what you disclose)', '研究员视图：隐藏事实（勾选你透露的）')}</small>
-              {scenario.facts.map((f) => (
-                <label key={f.id} title={f.answer}>
-                  <input
-                    type="checkbox"
-                    checked={facts.includes(f.id)}
-                    onChange={(e) => {
-                      setFacts((x) => (e.target.checked ? [...x, f.id] : x.filter((y) => y !== f.id)))
-                      if (e.target.checked) setAnswer((a) => (a ? `${a} ${f.answer}` : f.answer))
-                    }}
-                  />
-                  {f.topic}
-                </label>
-              ))}
-            </div>
-          )}
-          <textarea value={answer} onChange={(e) => setAnswer(e.target.value)} rows={3} placeholder={t('Your answer…', '你的回答……')} />
-          <button type="button" className="pfl-primary" onClick={send} disabled={!answer.trim()}>
-            {t('Reply', '回复')}
-          </button>
-        </div>
-      )}
-      <nav className="pfl-subtabs">
-        <button type="button" className={tab === 'flow' ? 'on' : ''} onClick={() => setTab('flow')}>
-          {t('Process', '流程图')}
-        </button>
-        <button type="button" className={tab === 'answer' ? 'on' : ''} onClick={() => setTab('answer')}>
-          {t('Summary', '总结')}
-        </button>
-        <button type="button" className={tab === 'trace' ? 'on' : ''} onClick={() => setTab('trace')}>
-          {t('Trace', '执行轨迹')} ({run.trace.length})
-        </button>
-        {run.score && (
-          <button type="button" className={tab === 'score' ? 'on' : ''} onClick={() => setTab('score')}>
-            {t('Score', '评分')} {fmt(run.score.checklistPct, 0)}%
-          </button>
-        )}
-      </nav>
-      {tab === 'flow' && <FlowView run={run} evidence={state.evidence} t={t} />}
-      {tab === 'answer' &&
-        (run.report ? (
-          <Report run={run} evidence={state.evidence} t={t} />
-        ) : (
-          <p className="pfl-dim">{run.status === 'running' ? t('Working…', '处理中……') : run.error ?? t('No summary', '没有总结')}</p>
-        ))}
-      {tab === 'trace' && (
-        <>
-          <label className="pfl-dim">
-            <input type="checkbox" checked={thoughts} onChange={(e) => setThoughts(e.target.checked)} /> {t('show reasoning notes', '显示思路')}
-          </label>
-          <Trace run={run} t={t} thoughts={thoughts} />
-        </>
-      )}
-      {tab === 'score' && run.score && (
-        <div className="pfl-score">
-          <p>
-            {t('Checklist', '清单')} {fmt(run.score.checklistPct)}% · {t('unsupported critical claims', '无依据关键论断')} {run.score.unsupportedCritical} ·{' '}
-            {t('valid / invalid citations', '有效/无效引用')} {run.score.validCitations}/{run.score.invalidCitations} · {t('critical facts elicited', '关键事实获取')}{' '}
-            {run.score.criticalFactsElicited}/{run.score.criticalFactsTotal}
-          </p>
-          <table>
-            <tbody>
-              {run.score.items.map((i) => (
-                <tr key={i.id}>
-                  <td>{i.id}</td>
-                  <td>{lbl(t, TYPE_ZH, i.type)}</td>
-                  <td>×{i.weight}</td>
-                  <td className={i.score >= 1 ? 'ok' : i.score > 0 ? 'mid' : 'no'}>{i.score}</td>
-                  <td>{lbl(t, METHOD_ZH, i.method)}</td>
-                  <td>{scenario?.checklist.find((c) => c.id === i.id)?.text} — <em>{i.why}</em></td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
-    </article>
-  )
-}
-
-// ------------------------------------------------------------------ views
+// ------------------------------------------------------------------ consult
 
 function Consult({ state, request, refresh, t, watch }: { state: LabState; request: Request; refresh: () => void; t: T; watch: (ids: string[]) => void }) {
   const [text, setText] = useState('')
   const [mode, setMode] = useState<'A' | 'B' | 'AB'>('AB')
   const [error, setError] = useState<string>()
-  const runs = state.details.filter((r) => r.experimentId === 'consult')
+  const runs = state.details.filter((r) => r.experimentId === 'consult').sort((a, b) => a.condition.localeCompare(b.condition))
   const start = async () => {
     setError(undefined)
     try {
@@ -409,38 +36,54 @@ function Consult({ state, request, refresh, t, watch }: { state: LabState; reque
       setError((e as Error).message)
     }
   }
+  const examples = [
+    t('I like photography and app design and want to try computer science. Where do I start?', '我喜欢摄影和 App 界面设计，想试试计算机，该从哪里开始？'),
+    t('I got a 4 on AP Psychology. Do I still need PSC 1 to declare psychology?', '我 AP 心理学考了 4 分，申报心理学专业还需要上 PSC 1 吗？'),
+    t('Can I double major in Mathematics and Applied Mathematics?', '我可以同时读数学和应用数学双专业吗？'),
+  ]
   return (
-    <div className="pfl-view">
-      <div className="pfl-compose">
-        <textarea
-          rows={3}
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          placeholder={t(
-            'e.g. I like photography and app design and want to try computer science. Where do I start?',
-            '例如：我喜欢摄影和 App 界面设计，想试试计算机，该从哪里开始？',
+    <div className="pl-view">
+      <section className="pl-hero">
+        <h3>{t('Ask an advising question', '提一个选课 / 专业问题')}</h3>
+        <p className="pl-muted">
+          {t(
+            'Watch how one agent — or a team of university, college and department specialists — finds the rules, asks what it needs, and prepares you for an advisor.',
+            '看单个 Agent，或由校级、学院、系里专家组成的团队，如何查规则、追问必要信息，并帮你准备好去见顾问。',
           )}
-        />
-        <div className="pfl-row">
-          <select value={mode} onChange={(e) => setMode(e.target.value as 'A' | 'B' | 'AB')}>
-            <option value="AB">{t('A and B side by side', 'A 与 B 并排对比')}</option>
-            <option value="A">{t('A · Single agent only', '仅 A · 单 Agent')}</option>
-            <option value="B">{t('B · Multi-agent only', '仅 B · 多 Agent')}</option>
-          </select>
-          <button type="button" className="pfl-primary" onClick={start} disabled={!text.trim() || !state.model}>
-            {t('Start consultation', '开始咨询')}
+        </p>
+        <textarea rows={3} value={text} onChange={(e) => setText(e.target.value)} placeholder={examples[0]} />
+        <div className="pl-examples">
+          {examples.map((x) => (
+            <button key={x} type="button" className="pl-chip-btn" onClick={() => setText(x)}>
+              {x}
+            </button>
+          ))}
+        </div>
+        <div className="pl-row">
+          <div className="pl-seg" role="radiogroup" aria-label={t('Which system', '使用哪种架构')}>
+            {(
+              [
+                ['AB', t('A and B side by side', 'A 与 B 并排')],
+                ['A', t('A · Single agent', 'A · 单 Agent')],
+                ['B', t('B · Multi-agent team', 'B · 多 Agent')],
+              ] as const
+            ).map(([k, label]) => (
+              <button key={k} type="button" role="radio" aria-checked={mode === k} className={mode === k ? 'on' : ''} onClick={() => setMode(k)}>
+                {label}
+              </button>
+            ))}
+          </div>
+          <button type="button" className="pl-btn primary" onClick={start} disabled={!text.trim() || !state.model}>
+            {t('Start', '开始咨询')}
           </button>
         </div>
-        {error && <p className="pfl-error">{errText(t, error)}</p>}
-        <p className="pfl-dim">
-          {t(
-            'Preparation support only — not an official eligibility decision. Answers cite UC Davis pages retrieved',
-            '仅用于准备顾问面谈，不是官方资格认定。回答引用的 UC Davis 页面抓取于',
-          )}{' '}
-          {state.corpus.builtAt}.
+        {error && <p className="pl-warn">{errText(t, error)}</p>}
+        <p className="pl-disclaimer">
+          {t('Preparation support only — not an official eligibility decision. Official pages retrieved', '仅用于准备面谈，不是官方资格认定。官方页面抓取于')} {state.corpus.builtAt}.
         </p>
-      </div>
-      <div className={`pfl-cols n${runs.length}`}>
+      </section>
+      {runs.length === 2 && <CompareStrip runs={runs} t={t} />}
+      <div className={`pl-cols n${runs.length}`}>
         {runs.map((r) => (
           <RunCard key={r.id} run={r} state={state} request={request} refresh={refresh} t={t} />
         ))}
@@ -448,6 +91,8 @@ function Consult({ state, request, refresh, t, watch }: { state: LabState; reque
     </div>
   )
 }
+
+// --------------------------------------------------------------- experiment
 
 function Experiment({ state, request, refresh, t, watch, selected }: { state: LabState; request: Request; refresh: () => void; t: T; watch: (ids: string[]) => void; selected?: string }) {
   const [picked, setPicked] = useState<string[]>(() => state.scenarios.filter((s) => s.split === 'dev').map((s) => s.id))
@@ -470,7 +115,14 @@ function Experiment({ state, request, refresh, t, watch, selected }: { state: La
         seed,
         studentMode: mode,
         autoGrade,
-        budget: { tokens: budget.tokens, modelCalls: budget.modelCalls, toolCalls: budget.toolCalls, clarifications: budget.clarifications, specialistCalls: budget.specialistCalls },
+        budget: {
+          tokens: budget.tokens,
+          modelCalls: budget.modelCalls,
+          toolCalls: budget.toolCalls,
+          clarifications: budget.clarifications,
+          specialistCalls: budget.specialistCalls,
+          checklist: budget.checklist,
+        },
       })
       refresh()
     } catch (e) {
@@ -482,39 +134,47 @@ function Experiment({ state, request, refresh, t, watch, selected }: { state: La
     watch([...runningIds, ...(open ? [open] : [])])
   }, [runningIds.join(','), open])
   const detail = state.details.find((r) => r.id === open) ?? state.details.find((r) => runningIds.includes(r.id))
-  const num = (key: keyof typeof budget, label: string) => (
+  const num = (key: 'tokens' | 'modelCalls' | 'toolCalls' | 'clarifications' | 'specialistCalls', label: string) => (
     <label>
       {label}
       <input type="number" value={budget[key]} onChange={(e) => setBudget({ ...budget, [key]: Number(e.target.value) })} />
     </label>
   )
+  const byCat = new Map<string, typeof state.scenarios>()
+  for (const s of state.scenarios) byCat.set(s.category, [...(byCat.get(s.category) ?? []), s])
   return (
-    <div className="pfl-view">
-      <section className="pfl-box">
-        <div className="pfl-row">
-          <strong>{t('Scenarios', '案例')}</strong>
-          <button type="button" className="pfl-link" onClick={() => pick('dev')}>
-            dev (4)
+    <div className="pl-view">
+      <section className="pl-card">
+        <header className="pl-row">
+          <h4>{t('1 · Pick cases', '1 · 选择案例')}</h4>
+          <button type="button" className="pl-chip-btn" onClick={() => pick('dev')}>
+            {t('dev', '开发')} (4)
           </button>
-          <button type="button" className="pfl-link" onClick={() => pick('heldout')}>
+          <button type="button" className="pl-chip-btn" onClick={() => pick('heldout')}>
             {t('held-out', '留出')} (20)
           </button>
-          <button type="button" className="pfl-link" onClick={() => pick('all')}>
+          <button type="button" className="pl-chip-btn" onClick={() => pick('all')}>
             {t('all', '全部')}
           </button>
-          <span className="pfl-dim">
-            {picked.length} × {repeats} × 2 = {picked.length * repeats * 2} {t('runs', '次运行')}
+          <span className="pl-muted">
+            {picked.length} × {repeats} × 2 = <b>{picked.length * repeats * 2}</b> {t('runs', '次运行')}
           </span>
-        </div>
-        <div className="pfl-grid">
-          {state.scenarios.map((s) => (
-            <label key={s.id} className="pfl-sc" title={s.opening}>
-              <input type="checkbox" checked={picked.includes(s.id)} onChange={(e) => setPicked((x) => (e.target.checked ? [...x, s.id] : x.filter((y) => y !== s.id)))} />
-              <b>{s.id}</b> {titleOf(t, s)}
-            </label>
+        </header>
+        <div className="pl-cases">
+          {[...byCat].map(([cat, list]) => (
+            <fieldset key={cat}>
+              <legend>{t(cat, CAT_ZH[cat] ?? cat)}</legend>
+              {list.map((s) => (
+                <label key={s.id} title={s.opening}>
+                  <input type="checkbox" checked={picked.includes(s.id)} onChange={(e) => setPicked((x) => (e.target.checked ? [...x, s.id] : x.filter((y) => y !== s.id)))} />
+                  <b>{s.id}</b> {titleOf(t, s)}
+                </label>
+              ))}
+            </fieldset>
           ))}
         </div>
-        <div className="pfl-form">
+        <h4>{t('2 · Settings', '2 · 设置')}</h4>
+        <div className="pl-form">
           <label>
             {t('Name', '名称')}
             <input value={name} onChange={(e) => setName(e.target.value)} />
@@ -534,32 +194,39 @@ function Experiment({ state, request, refresh, t, watch, selected }: { state: La
               <option value="manual">{t('Researcher answers', '研究员手动答复')}</option>
             </select>
           </label>
-          <label>
-            <input type="checkbox" checked={autoGrade} onChange={(e) => setAutoGrade(e.target.checked)} /> {t('Grade automatically', '自动评分')}
-          </label>
-        </div>
-        <div className="pfl-form">
           {num('tokens', 'tokens')}
           {num('modelCalls', t('model calls', '模型调用'))}
           {num('toolCalls', t('tool calls', '工具调用'))}
-          {num('clarifications', t('clarifications', '追问'))}
+          {num('clarifications', t('questions to student', '追问上限'))}
           {num('specialistCalls', t('specialist calls (B)', '专家调用 (B)'))}
         </div>
-        <div className="pfl-row">
-          <button type="button" className="pfl-primary" disabled={Boolean(state.job) || !picked.length || !state.model} onClick={start}>
-            {t('Run experiment', '运行实验')}
+        <div className="pl-row">
+          <label className="pl-switch">
+            <input type="checkbox" checked={budget.checklist !== false} onChange={(e) => setBudget({ ...budget, checklist: e.target.checked })} />
+            {t('Information checklist (both A and B)', '信息清单（A、B 同时开启）')}
+          </label>
+          <label className="pl-switch">
+            <input type="checkbox" checked={autoGrade} onChange={(e) => setAutoGrade(e.target.checked)} /> {t('Grade automatically', '自动评分')}
+          </label>
+        </div>
+        <div className="pl-row">
+          <button type="button" className="pl-btn primary" disabled={Boolean(state.job) || !picked.length || !state.model} onClick={start}>
+            {t('3 · Run experiment', '3 · 运行实验')}
           </button>
           {state.job && (
             <>
-              <span>
-                {state.job.progress}/{state.job.planned}
+              <span className="pl-progress">
+                <i style={{ width: `${(100 * state.job.progress) / Math.max(1, state.job.planned)}%` }} />
+                <b>
+                  {state.job.progress}/{state.job.planned}
+                </b>
               </span>
-              <button type="button" className="pfl-link" onClick={() => request('stop', {}).then(refresh)}>
+              <button type="button" className="pl-btn ghost" onClick={() => request('stop', {}).then(refresh)}>
                 {t('Stop', '停止')}
               </button>
             </>
           )}
-          {error && <span className="pfl-error">{errText(t, error)}</span>}
+          {error && <span className="pl-warn">{errText(t, error)}</span>}
         </div>
       </section>
       <RunTable runs={state.runs} t={t} onOpen={setOpen} open={open} title={selected} />
@@ -569,69 +236,146 @@ function Experiment({ state, request, refresh, t, watch, selected }: { state: La
 }
 
 function RunTable({ runs, t, onOpen, open, title }: { runs: RunSummary[]; t: T; onOpen: (id: string) => void; open?: string; title?: string }) {
-  if (!runs.length) return <p className="pfl-dim">{t('No runs yet.', '还没有运行记录。')}</p>
+  if (!runs.length) return <p className="pl-muted">{t('No runs yet.', '还没有运行记录。')}</p>
   return (
-    <section className="pfl-box">
-      <strong>{title}</strong>
-      <table className="pfl-table">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>{t('Case', '案例')}</th>
-            <th>{t('Cond.', '组')}</th>
-            <th>{t('Status', '状态')}</th>
-            <th>tokens</th>
-            <th>{t('calls', '调用')}</th>
-            <th>{t('asks', '追问')}</th>
-            <th>{t('time', '耗时')}</th>
-            <th>{t('checklist', '清单')}</th>
-          </tr>
-        </thead>
-        <tbody>
-          {runs.map((r) => (
-            <tr key={r.id} className={open === r.id ? 'on' : ''} onClick={() => onOpen(r.id)}>
-              <td>{r.order}</td>
-              <td>{r.scenarioId}</td>
-              <td>
-                {r.condition}
-                {r.repeat}
-              </td>
-              <td className={`s-${r.status}`}>{lbl(t, STATUS_ZH, r.status)}</td>
-              <td>{r.tokens}</td>
-              <td>{r.modelCalls}</td>
-              <td>{r.clarifications}</td>
-              <td>{secs(r.wallMs)}</td>
-              <td>{fmt(r.checklistPct, 0)}</td>
+    <section className="pl-card">
+      <header className="pl-row">
+        <h4>{t('Runs', '运行记录')}</h4>
+        <span className="pl-muted">{title} · {t('click a row to replay it', '点击一行查看回放')}</span>
+      </header>
+      <div className="pl-table-wrap">
+        <table className="pl-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>{t('Case', '案例')}</th>
+              <th>{t('System', '组')}</th>
+              <th>{t('Status', '状态')}</th>
+              <th>tokens</th>
+              <th>{t('calls', '调用')}</th>
+              <th>{t('asks', '追问')}</th>
+              <th>{t('time', '耗时')}</th>
+              <th>{t('score', '得分')}</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {runs.map((r) => (
+              <tr key={r.id} className={open === r.id ? 'on' : ''} onClick={() => onOpen(r.id)}>
+                <td>{r.order}</td>
+                <td>{r.scenarioId}</td>
+                <td>
+                  <span className={`pl-dot c-${r.condition}`} />
+                  {r.condition}
+                  {r.repeat}
+                </td>
+                <td className={`s-${r.status}`}>{lbl(t, STATUS_ZH, r.status)}</td>
+                <td>{kTok(r.tokens)}</td>
+                <td>{r.modelCalls}</td>
+                <td>{r.clarifications}</td>
+                <td>{secs(r.wallMs)}</td>
+                <td>
+                  {r.checklistPct != null && (
+                    <span className="pl-scorebar">
+                      <i style={{ width: `${r.checklistPct}%` }} />
+                      {fmt(r.checklistPct, 0)}
+                    </span>
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </section>
   )
 }
 
-function Bars({ rows, t }: { rows: { label: string; A: number; B: number }[]; t: T }) {
+// ------------------------------------------------------------------ results
+
+const HELP: Record<string, [string, string]> = {
+  checklistPct: ['Share of the pre-registered checklist the summary satisfied (primary outcome).', '总结满足事先写好的评分清单的比例（主指标）。'],
+  unsupportedCritical: ['Key rule claims with no valid citation or not supported by the cited text.', '关键规则陈述没有有效引用，或引用原文不支持它。'],
+  criticalElicitedPct: ['Decision-critical student facts the system actually asked about.', '会改变建议的学生关键事实，被问到的比例。'],
+  needsResolvedPct: ['Share of the agent’s own information checklist resolved with proof.', 'Agent 自己列出的信息清单中，有凭据解决的比例。'],
+  redundantActions: ['Searches, questions or delegations aimed at a need already answered.', '针对已解决信息的多余检索、追问或委派。'],
+  repeatedRetrievals: ['Searches that returned nothing new.', '没有带来新内容的重复检索。'],
+  tokens: ['Total model tokens, every call included.', '所有模型调用的 token 总数。'],
+}
+
+function Bars({ rows, t, unit = '' }: { rows: { label: string; A: number; B: number }[]; t: T; unit?: string }) {
   const max = Math.max(1, ...rows.flatMap((r) => [r.A, r.B]).filter(Number.isFinite))
   return (
-    <div className="pfl-bars">
-      <div className="pfl-legend">
-        <span className="c-A">A {t('single', '单 Agent')}</span>
-        <span className="c-B">B {t('multi', '多 Agent')}</span>
+    <div className="pl-bars">
+      <div className="pl-legend-inline">
+        <span className="c-A">A {t('single agent', '单 Agent')}</span>
+        <span className="c-B">B {t('multi-agent', '多 Agent')}</span>
       </div>
       {rows.map((r) => (
-        <div key={r.label} className="pfl-barrow">
-          <span>{r.label}</span>
+        <div key={r.label} className="pl-barrow">
+          <span title={r.label}>{r.label}</span>
           <div>
             <i className="c-A" style={{ width: `${(100 * (r.A || 0)) / max}%` }}>
               {fmt(r.A, 0)}
+              {unit}
             </i>
             <i className="c-B" style={{ width: `${(100 * (r.B || 0)) / max}%` }}>
               {fmt(r.B, 0)}
+              {unit}
             </i>
           </div>
         </div>
       ))}
     </div>
+  )
+}
+
+function verdictClass(r: PairedRow) {
+  if (r.better === 'neutral' || !Number.isFinite(r.diff) || Math.abs(r.diff) < 1e-9) return ''
+  const good = r.better === 'higher' ? r.diff > 0 : r.diff < 0
+  const sure = Number.isFinite(r.ci[0]) && (r.ci[0] > 0 || r.ci[1] < 0)
+  return `${good ? 'good' : 'bad'}${sure ? ' sure' : ''}`
+}
+
+function Takeaways({ rows, n, t }: { rows: PairedRow[]; n: number; t: T }) {
+  const get = (k: string) => rows.find((r) => r.key === k)
+  const q = get('checklistPct')
+  const tok = get('tokens')
+  const time = get('wallSec')
+  const need = get('needsResolvedPct')
+  const red = get('redundantActions')
+  const lines: string[] = []
+  if (q && Number.isFinite(q.diff)) {
+    const sure = q.ci[0] > 0 || q.ci[1] < 0
+    const who = q.diff >= 0 ? 'B' : 'A'
+    lines.push(
+      t(
+        `${who} scored ${fmt(Math.abs(q.diff))} points higher on the checklist (A ${fmt(q.meanA)}% vs B ${fmt(q.meanB)}%). ${sure ? 'The 95% interval excludes zero.' : `The 95% interval [${fmt(q.ci[0])}, ${fmt(q.ci[1])}] includes zero, so with ${n} cases this is not yet a reliable difference.`}`,
+        `${who} 组的清单得分高 ${fmt(Math.abs(q.diff))} 分（A ${fmt(q.meanA)}%，B ${fmt(q.meanB)}%）。${sure ? '95% 置信区间不含 0。' : `95% 置信区间 [${fmt(q.ci[0])}, ${fmt(q.ci[1])}] 包含 0，${n} 个案例下还不能算可靠差异。`}`,
+      ),
+    )
+    lines.push(t(`B was better in ${q.wins} case(s), tied in ${q.ties}, worse in ${q.losses}.`, `B 在 ${q.wins} 个案例更好、${q.ties} 个持平、${q.losses} 个更差。`))
+  }
+  if (tok && Number.isFinite(tok.meanA) && tok.meanA > 0) {
+    const ratio = tok.meanB / tok.meanA
+    const tr = time && time.meanA > 0 ? time.meanB / time.meanA : NaN
+    lines.push(t(`Cost: B used ${fmt(ratio, 1)}× the tokens${Number.isFinite(tr) ? ` and ${fmt(tr, 1)}× the time` : ''} of A.`, `成本：B 的 token 是 A 的 ${fmt(ratio, 1)} 倍${Number.isFinite(tr) ? `，用时是 ${fmt(tr, 1)} 倍` : ''}。`))
+  }
+  if (need && Number.isFinite(need.meanA))
+    lines.push(
+      t(
+        `Information checklist: A resolved ${fmt(need.meanA, 0)}% of its own needs, B ${fmt(need.meanB, 0)}%; redundant research actions A ${fmt(red?.meanA)} vs B ${fmt(red?.meanB)} per run.`,
+        `信息清单：A 解决了自己列出需求的 ${fmt(need.meanA, 0)}%，B 为 ${fmt(need.meanB, 0)}%；每次运行的多余查询 A ${fmt(red?.meanA)}，B ${fmt(red?.meanB)}。`,
+      ),
+    )
+  return (
+    <section className="pl-card pl-takeaways">
+      <h4>{t('Key takeaways', '结论速读')}</h4>
+      <ul>
+        {lines.map((l) => (
+          <li key={l}>{l}</li>
+        ))}
+      </ul>
+    </section>
   )
 }
 
@@ -665,102 +409,125 @@ function Results({ state, request, t, experimentId, setExperimentId }: { state: 
   const file = useRef<HTMLInputElement>(null)
   const a = result?.analysis
   const p = (x: number) => (!Number.isFinite(x) ? '—' : x < 0.001 ? '<0.001' : x.toFixed(3))
+  const rows = a?.paired.filter((r) => Number.isFinite(r.meanA) || Number.isFinite(r.meanB)) ?? []
   return (
-    <div className="pfl-view">
-      <div className="pfl-row">
-        <select value={exp} onChange={(e) => setExperimentId(e.target.value)}>
-          {state.experiments.map((e) => (
-            <option key={e.id} value={e.id}>
-              {e.name} · {e.id} · {lbl(t, STATUS_ZH, e.status)}
-              {e.error ? ` · ${errText(t, e.error).slice(0, 60)}` : ''}
-            </option>
-          ))}
-        </select>
-        <button type="button" className="pfl-link" disabled={!exp || Boolean(busy)} onClick={() => act('grade', async () => { await request('grade', { experimentId: exp }); await load() })}>
-          {busy === 'grade' ? t('Grading…', '评分中……') : t('Grade unscored', '为未评分运行评分')}
-        </button>
-        <button
-          type="button"
-          className="pfl-link"
-          disabled={!exp || Boolean(busy) || Boolean(state.job)}
-          onClick={() => act('resume', async () => { await request('resume', { experimentId: exp }) })}
-        >
-          {t('Resume failed/missing runs', '续跑失败或缺失的运行')}
-        </button>
-        <button type="button" className="pfl-link" disabled={!exp} onClick={() => act('blind', async () => saveJson(await request('exportBlind', { experimentId: exp }), `${exp}-blind-review.json`))}>
-          {t('Export blind review', '导出盲评包')}
-        </button>
-        <button type="button" className="pfl-link" disabled={!exp} onClick={() => act('runs', async () => saveJson(await request('exportRuns', { experimentId: exp }), `${exp}-runs.json`))}>
-          {t('Export full runs', '导出完整轨迹')}
-        </button>
-        <button type="button" className="pfl-link" disabled={!exp} onClick={() => file.current?.click()}>
-          {t('Import human scores', '导入人工评分')}
-        </button>
-        <input
-          ref={file}
-          type="file"
-          accept="application/json"
-          hidden
-          onChange={(e) => {
-            const f = e.target.files?.[0]
-            if (f)
-              void act('import', async () => {
-                await request('importHuman', { experimentId: exp, scores: JSON.parse(await f.text()) })
-                await load()
-              })
-            e.target.value = ''
-          }}
-        />
-      </div>
-      {error && <p className="pfl-error">{errText(t, error)}</p>}
+    <div className="pl-view">
+      <section className="pl-card">
+        <div className="pl-row">
+          <select value={exp} onChange={(e) => setExperimentId(e.target.value)} aria-label={t('Experiment', '实验')}>
+            {state.experiments.map((e) => (
+              <option key={e.id} value={e.id}>
+                {e.name} · {e.id} · {lbl(t, STATUS_ZH, e.status)}
+                {e.error ? ` · ${errText(t, e.error).slice(0, 60)}` : ''}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="pl-row">
+          <button type="button" className="pl-btn ghost" disabled={!exp || Boolean(busy)} onClick={() => act('grade', async () => { await request('grade', { experimentId: exp }); await load() })}>
+            {busy === 'grade' ? t('Grading…', '评分中……') : t('Grade unscored', '为未评分运行评分')}
+          </button>
+          <button type="button" className="pl-btn ghost" disabled={!exp || Boolean(busy) || Boolean(state.job)} onClick={() => act('resume', async () => { await request('resume', { experimentId: exp }) })}>
+            {t('Resume failed/missing runs', '续跑失败或缺失的运行')}
+          </button>
+          <button type="button" className="pl-btn ghost" disabled={!exp} onClick={() => act('blind', async () => saveJson(await request('exportBlind', { experimentId: exp }), `${exp}-blind-review.json`))}>
+            {t('Export blind review', '导出盲评包')}
+          </button>
+          <button type="button" className="pl-btn ghost" disabled={!exp} onClick={() => act('runs', async () => saveJson(await request('exportRuns', { experimentId: exp }), `${exp}-runs.json`))}>
+            {t('Export full runs', '导出完整轨迹')}
+          </button>
+          <button type="button" className="pl-btn ghost" disabled={!exp} onClick={() => file.current?.click()}>
+            {t('Import human scores', '导入人工评分')}
+          </button>
+          <input
+            ref={file}
+            type="file"
+            accept="application/json"
+            hidden
+            onChange={(e) => {
+              const f = e.target.files?.[0]
+              if (f)
+                void act('import', async () => {
+                  await request('importHuman', { experimentId: exp, scores: JSON.parse(await f.text()) })
+                  await load()
+                })
+              e.target.value = ''
+            }}
+          />
+        </div>
+        {error && <p className="pl-warn">{errText(t, error)}</p>}
+      </section>
       {!a || !a.paired[0]?.n ? (
-        <p className="pfl-dim">{t('Need at least one scenario with scored A and B runs.', '至少需要一个案例同时有已评分的 A、B 运行。')}</p>
+        <p className="pl-muted">{t('Need at least one scenario with scored A and B runs.', '至少需要一个案例同时有已评分的 A、B 运行。')}</p>
       ) : (
         <>
-          <p className="pfl-dim">
-            {t('Paired over', '配对案例数')} {a.paired[0].n} · {t('runs', '运行')} {a.runs.done}/{a.runs.total} · {t('scored', '已评分')} {a.runs.scored} ·{' '}
-            {t('B handoffs', 'B 组交接')} {a.handoffs.total}
-          </p>
-          <table className="pfl-table">
-            <thead>
-              <tr>
-                <th>{t('Metric', '指标')}</th>
-                <th>A</th>
-                <th>B</th>
-                <th>B − A</th>
-                <th>95% CI</th>
-                <th>p</th>
-                <th>dz</th>
-                <th>{t('B better/tie/worse', 'B 更好/持平/更差')}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {a.paired.map((r) => (
-                <tr key={r.key} className={r.key === 'checklistPct' ? 'primary' : ''}>
-                  <td>{t(r.label, r.labelZh)}</td>
-                  <td>{fmt(r.meanA)}</td>
-                  <td>{fmt(r.meanB)}</td>
-                  <td>{fmt(r.diff)}</td>
-                  <td>
-                    [{fmt(r.ci[0])}, {fmt(r.ci[1])}]
-                  </td>
-                  <td>{p(r.p)}</td>
-                  <td>{fmt(r.dz, 2)}</td>
-                  <td>{r.better === 'neutral' ? '—' : `${r.wins}/${r.ties}/${r.losses}`}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <h4>{t('Checklist by category', '各类别清单得分')}</h4>
-          <Bars rows={a.byCategory.map((c) => ({ label: t(c.category, CAT_ZH[c.category] ?? c.category), A: c.A, B: c.B }))} t={t} />
-          <h4>{t('Checklist by scenario', '各案例清单得分')}</h4>
-          <Bars rows={a.perScenario.map((s) => ({ label: s.scenarioId, A: s.A?.checklistPct ?? NaN, B: s.B?.checklistPct ?? NaN }))} t={t} />
-          <h4>{t('Tokens by scenario', '各案例 token 用量')}</h4>
-          <Bars rows={a.perScenario.map((s) => ({ label: s.scenarioId, A: s.A?.tokens ?? NaN, B: s.B?.tokens ?? NaN }))} t={t} />
+          <Takeaways rows={a.paired} n={a.paired[0].n} t={t} />
+          <section className="pl-card">
+            <header className="pl-row">
+              <h4>{t('All metrics (paired by case, B − A)', '全部指标（按案例配对，B − A）')}</h4>
+              <span className="pl-muted">
+                {t('cases', '案例')} {a.paired[0].n} · {t('runs', '运行')} {a.runs.done}/{a.runs.total} · {t('scored', '已评分')} {a.runs.scored}
+              </span>
+            </header>
+            <div className="pl-table-wrap">
+              <table className="pl-table pl-metrics">
+                <thead>
+                  <tr>
+                    <th>{t('Metric', '指标')}</th>
+                    <th>A</th>
+                    <th>B</th>
+                    <th>B − A</th>
+                    <th>95% CI</th>
+                    <th>p</th>
+                    <th>{t('B better/tie/worse', 'B 更好/持平/更差')}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {rows.map((r) => (
+                    <tr key={r.key} className={r.key === 'checklistPct' ? 'primary' : ''}>
+                      <td title={HELP[r.key] ? t(HELP[r.key]![0], HELP[r.key]![1]) : undefined}>
+                        {t(r.label, r.labelZh)}
+                        {HELP[r.key] && <span className="pl-help">?</span>}
+                      </td>
+                      <td>{fmt(r.meanA)}</td>
+                      <td>{fmt(r.meanB)}</td>
+                      <td className={`pl-diff ${verdictClass(r)}`}>
+                        {Number.isFinite(r.diff) && r.diff > 0 ? '+' : ''}
+                        {fmt(r.diff)}
+                      </td>
+                      <td>
+                        [{fmt(r.ci[0])}, {fmt(r.ci[1])}]
+                      </td>
+                      <td>{p(r.p)}</td>
+                      <td>{r.better === 'neutral' ? '—' : `${r.wins}/${r.ties}/${r.losses}`}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <p className="pl-muted">
+              {t(
+                'Green = B better, red = B worse; bold = 95% interval excludes zero. Hover a metric for its meaning.',
+                '绿色 = B 更好，红色 = B 更差；加粗 = 95% 区间不含 0。鼠标悬停指标可看含义。',
+              )}
+            </p>
+          </section>
+          <section className="pl-card">
+            <h4>{t('Checklist score by category', '各类别清单得分')}</h4>
+            <Bars rows={a.byCategory.map((c) => ({ label: t(c.category, CAT_ZH[c.category] ?? c.category), A: c.A, B: c.B }))} t={t} unit="%" />
+          </section>
+          <section className="pl-card">
+            <h4>{t('Checklist score by case', '各案例清单得分')}</h4>
+            <Bars rows={a.perScenario.map((s) => ({ label: s.scenarioId, A: s.A?.checklistPct ?? NaN, B: s.B?.checklistPct ?? NaN }))} t={t} unit="%" />
+          </section>
+          <section className="pl-card">
+            <h4>{t('Tokens by case', '各案例 token 用量')}</h4>
+            <Bars rows={a.perScenario.map((s) => ({ label: s.scenarioId, A: s.A?.tokens ?? NaN, B: s.B?.tokens ?? NaN }))} t={t} />
+          </section>
           {result.agreement.length > 0 && (
-            <>
+            <section className="pl-card">
               <h4>{t('Scorer agreement', '评分一致性')}</h4>
-              <table className="pfl-table">
+              <table className="pl-table">
                 <tbody>
                   {result.agreement.map((g) => (
                     <tr key={`${g.a}-${g.b}`}>
@@ -775,7 +542,7 @@ function Results({ state, request, t, experimentId, setExperimentId }: { state: 
                   ))}
                 </tbody>
               </table>
-            </>
+            </section>
           )}
         </>
       )}
@@ -783,58 +550,78 @@ function Results({ state, request, t, experimentId, setExperimentId }: { state: 
   )
 }
 
+// -------------------------------------------------------------------- cases
+
 function Cases({ state, t }: { state: LabState; t: T }) {
   const [open, setOpen] = useState(state.scenarios[0]?.id)
   const s = state.scenarios.find((x) => x.id === open)
+  const units = Object.entries(state.corpus.byUnit)
+  const maxUnit = Math.max(1, ...units.map(([, n]) => n))
   return (
-    <div className="pfl-view">
-      <p className="pfl-dim">
-        {t('Corpus', '语料')} {state.corpus.version} · {state.corpus.documents} {t('documents', '份文档')} · {state.corpus.chunks} {t('chunks', '段')} · {state.corpus.courses}{' '}
-        {t('courses', '门课程')} · {Object.entries(state.corpus.byUnit).map(([u, n]) => `${u} ${n}`).join(' · ')}
-      </p>
-      <div className="pfl-row">
-        <select value={open} onChange={(e) => setOpen(e.target.value)}>
-          {state.scenarios.map((x) => (
-            <option key={x.id} value={x.id}>
-              {x.id} · {titleOf(t, x)}
-            </option>
+    <div className="pl-view">
+      <section className="pl-card">
+        <h4>{t('Evidence collection', '证据库')}</h4>
+        <p className="pl-muted">
+          {state.corpus.documents} {t('documents', '份文档')} · {state.corpus.chunks} {t('passages', '段')} · {state.corpus.courses} {t('courses', '门课程')} · {t('built', '构建于')} {state.corpus.builtAt} · v{state.corpus.version}
+        </p>
+        <div className="pl-bars">
+          {units.map(([u, n]) => (
+            <div key={u} className="pl-barrow">
+              <span>{u}</span>
+              <div>
+                <i className="c-doc" style={{ width: `${(100 * n) / maxUnit}%` }}>
+                  {n}
+                </i>
+              </div>
+            </div>
           ))}
-        </select>
-      </div>
-      {s && (
-        <section className="pfl-box">
-          <p>
-            <span className="pfl-tag">{lbl(t, SPLIT_ZH, s.split)}</span> <span className="pfl-tag">{t(s.category, CAT_ZH[s.category] ?? s.category)}</span> <span className="pfl-tag">{s.year}</span>{' '}
-            {s.majors.join(' / ')}
-          </p>
-          <blockquote>{s.opening}</blockquote>
-          <h4>{t('Hidden profile', '隐藏档案')}</h4>
-          <ul>
-            {s.facts.map((f) => (
-              <li key={f.id}>
-                <b>{f.id}</b>
-                {f.critical && <span className="pfl-tag">{t('critical', '关键')}</span>} {f.topic}: <em>{f.answer}</em>
-              </li>
+        </div>
+      </section>
+      <section className="pl-card">
+        <div className="pl-row">
+          <select value={open} onChange={(e) => setOpen(e.target.value)} aria-label={t('Case', '案例')}>
+            {state.scenarios.map((x) => (
+              <option key={x.id} value={x.id}>
+                {x.id} · {titleOf(t, x)}
+              </option>
             ))}
-          </ul>
-          <h4>{t('Checklist', '评分清单')}</h4>
-          <ul>
-            {s.checklist.map((c) => (
-              <li key={c.id}>
-                <b>{c.id}</b> <span className="pfl-tag">{lbl(t, TYPE_ZH, c.type)}</span> ×{c.weight} {c.text}
-                {c.docs && <small> ({c.docs.join(', ')})</small>}
-              </li>
-            ))}
-          </ul>
-          <h4>{t('Reference notes', '参考要点')}</h4>
-          <p>{s.reference}</p>
-        </section>
-      )}
+          </select>
+        </div>
+        {s && (
+          <>
+            <p>
+              <span className="pl-tag">{lbl(t, SPLIT_ZH, s.split)}</span> <span className="pl-tag">{t(s.category, CAT_ZH[s.category] ?? s.category)}</span> <span className="pl-tag">{s.year}</span> {s.majors.join(' / ')}
+            </p>
+            <p className="pl-bubble stu">{s.opening}</p>
+            <h4>{t('Hidden profile (revealed only when asked)', '隐藏档案（只有被问到才透露）')}</h4>
+            <ul className="pl-facts-list">
+              {s.facts.map((f) => (
+                <li key={f.id}>
+                  <b>{f.topic}</b>
+                  {f.critical && <span className="pl-tag warn">{t('critical', '关键')}</span>}
+                  <span className="pl-muted">“{f.answer}”</span>
+                </li>
+              ))}
+            </ul>
+            <h4>{t('Scoring checklist', '评分清单')}</h4>
+            <ul className="pl-facts-list">
+              {s.checklist.map((c) => (
+                <li key={c.id}>
+                  <b>{c.id}</b> <span className="pl-tag">{lbl(t, TYPE_ZH, c.type)}</span> <span className="pl-tag">×{c.weight}</span> {c.text}
+                  {c.docs && <small className="pl-muted"> ({c.docs.join(', ')})</small>}
+                </li>
+              ))}
+            </ul>
+            <h4>{t('What a strong answer covers', '好答案应覆盖的要点')}</h4>
+            <p>{s.reference}</p>
+          </>
+        )}
+      </section>
     </div>
   )
 }
 
-// ------------------------------------------------------------------ panel
+// -------------------------------------------------------------------- panel
 
 export function Panel({ request, locale }: { request: Request; locale: Locale }) {
   const active = useSyncExternalStore(locale.subscribe, locale.get)
@@ -848,9 +635,7 @@ export function Panel({ request, locale }: { request: Request; locale: Locale })
   const [experimentId, setExperimentId] = useState<string>()
   const watchRef = useRef<string[]>([])
   const consultIds = useRef<string[]>([])
-  const watch = useCallback((ids: string[]) => {
-    setWatching(ids)
-  }, [])
+  const watch = useCallback((ids: string[]) => setWatching(ids), [])
   watchRef.current = [...new Set([...consultIds.current, ...watching])].slice(-4)
   const refresh = useCallback(async () => {
     try {
@@ -878,17 +663,17 @@ export function Panel({ request, locale }: { request: Request; locale: Locale })
   const pendingCount = state?.pending.length ?? 0
 
   return (
-    <div className="pfl">
-      <header className="pfl-head">
+    <div className="pl">
+      <header className="pl-head">
         <div>
-          <div className="pfl-eyebrow">PATHFINDER UCD · ADVISING LAB</div>
-          <h2>{t('Single agent vs institution-scoped team', '单 Agent 对比按学校职责分工的多 Agent')}</h2>
-          <p className="pfl-dim">
-            {state?.model ? `${state.model.id} · ${state.model.provider}` : t('No model selected in Harness settings', '尚未在 Harness 设置里选择模型')} · ECS · PSC · LIN · MAT
+          <div className="pl-eyebrow">PATHFINDER UCD · ADVISING LAB</div>
+          <h2>{t('How does an AI advisor find the answer?', 'AI 顾问是怎样找到答案的？')}</h2>
+          <p className="pl-muted">
+            {state?.model ? `${state.model.id}` : t('No model selected in Harness settings', '尚未在 Harness 设置里选择模型')} · {t('single agent vs institution-scoped team', '单 Agent 对比按学校职责分工的团队')} · ECS · PSC · LIN · MAT
           </p>
         </div>
         <select
-          className="pfl-lang"
+          className="pl-lang"
           value={lang}
           aria-label={t('Interface language', '界面语言')}
           onChange={(e) => {
@@ -902,7 +687,7 @@ export function Panel({ request, locale }: { request: Request; locale: Locale })
           <option value="zh">中文</option>
         </select>
       </header>
-      <nav className="pfl-tabs">
+      <nav className="pl-tabs" role="tablist">
         {(
           [
             ['consult', t('Consult', '咨询')],
@@ -911,15 +696,15 @@ export function Panel({ request, locale }: { request: Request; locale: Locale })
             ['cases', t('Cases & data', '案例与数据')],
           ] as const
         ).map(([k, label]) => (
-          <button key={k} type="button" className={view === k ? 'on' : ''} onClick={() => setView(k)}>
+          <button key={k} type="button" role="tab" aria-selected={view === k} className={view === k ? 'on' : ''} onClick={() => setView(k)}>
             {label}
-            {k === 'experiment' && pendingCount > 0 && <span className="pfl-dot">{pendingCount}</span>}
+            {k === 'experiment' && pendingCount > 0 && <span className="pl-badge-dot">{pendingCount}</span>}
           </button>
         ))}
       </nav>
-      {error && <p className="pfl-error">{errText(t, error)}</p>}
+      {error && <p className="pl-warn">{errText(t, error)}</p>}
       {!state ? (
-        <p className="pfl-dim pfl-view">{t('Loading…', '加载中……')}</p>
+        <p className="pl-muted pl-view">{t('Loading…', '加载中……')}</p>
       ) : view === 'consult' ? (
         <Consult state={state} request={request} refresh={refresh} t={t} watch={watchConsult} />
       ) : view === 'experiment' ? (
@@ -948,7 +733,7 @@ export function Entry({ open, locale }: { open: () => void; locale: Locale }) {
   const zh = pref === 'follow' ? active.toLowerCase().startsWith('zh') : pref === 'zh'
   const title = zh ? '打开 Pathfinder 咨询实验室' : 'Open Pathfinder Advising Lab'
   return (
-    <button className="pfl-icon" type="button" title={title} aria-label={title} onClick={open}>
+    <button className="pl-entry" type="button" title={title} aria-label={title} onClick={open}>
       <Glyph />
       <span>{zh ? '咨询实验室' : 'Advising Lab'}</span>
     </button>
@@ -962,8 +747,7 @@ export function apply(ctx: Context) {
   }
   const rpc = (ctx.connection as unknown as { rpc: ClientConnectionRpc }).rpc
   const request: Request = async (endpoint, payload = {}) => {
-    const path = endpoints[endpoint as Endpoint] ?? endpoint
-    const result = await rpc.call(channel, path, payload)
+    const result = await rpc.call(channel, endpoints[endpoint], payload)
     if (!result.ok) throw new Error(result.error.message)
     return result.value as never
   }
@@ -988,10 +772,7 @@ export function apply(ctx: Context) {
           id: kind,
           order: 5,
           title: label,
-          description: () =>
-            isZh()
-              ? 'UC Davis 学业咨询：单 Agent 与多 Agent 对比实验'
-              : 'UC Davis advising: single vs multi-agent experiment',
+          description: () => (isZh() ? 'UC Davis 学业咨询：看 AI 如何查资料、做判断' : 'UC Davis advising: watch how the AI finds the answer'),
         },
       ],
     }),

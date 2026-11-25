@@ -10,6 +10,8 @@ export const METRICS = [
   { key: 'criticalElicitedPct', label: 'Critical facts elicited (%)', labelZh: '关键事实获取率 (%)', better: 'higher' },
   { key: 'invalidCitations', label: 'Invalid citations', labelZh: '无效引用', better: 'lower' },
   { key: 'validCitations', label: 'Valid citations', labelZh: '有效引用', better: 'higher' },
+  { key: 'needsResolvedPct', label: 'Checklist needs resolved (%)', labelZh: '信息清单完成度 (%)', better: 'higher' },
+  { key: 'redundantActions', label: 'Redundant research actions', labelZh: '多余的查询动作', better: 'lower' },
   { key: 'repeatedRetrievals', label: 'Repeated retrievals', labelZh: '重复检索', better: 'lower' },
   { key: 'clarifications', label: 'Clarification turns', labelZh: '追问次数', better: 'neutral' },
   { key: 'tokens', label: 'Tokens (in+out)', labelZh: 'Tokens（输入+输出）', better: 'lower' },
@@ -29,6 +31,10 @@ export function metricsOf(run: RunRecord): Record<MetricKey, number> | null {
     criticalElicitedPct: s.criticalFactsTotal ? (100 * s.criticalFactsElicited) / s.criticalFactsTotal : 100,
     invalidCitations: s.invalidCitations,
     validCitations: s.validCitations,
+    needsResolvedPct: run.checklist?.length
+      ? (100 * run.checklist.filter((i) => i.status === 'answered' || i.status === 'blocked').length) / run.checklist.length
+      : NaN,
+    redundantActions: run.usage.redundantActions ?? 0,
     repeatedRetrievals: run.usage.repeatedRetrievals,
     clarifications: run.usage.clarifications,
     tokens: run.usage.tokens,
@@ -39,7 +45,11 @@ export function metricsOf(run: RunRecord): Record<MetricKey, number> | null {
   }
 }
 
-const mean = (xs: number[]) => (xs.length ? xs.reduce((a, b) => a + b, 0) / xs.length : NaN)
+/** Mean over finite values (runs without a checklist contribute NaN and are skipped). */
+const mean = (all: number[]) => {
+  const xs = all.filter(Number.isFinite)
+  return xs.length ? xs.reduce((a, b) => a + b, 0) / xs.length : NaN
+}
 const sd = (xs: number[]) => {
   if (xs.length < 2) return NaN
   const m = mean(xs)
@@ -150,7 +160,7 @@ export function analyze(runs: RunRecord[], scenarios: Scenario[], experimentId =
   const paired: PairedRow[] = METRICS.map(({ key, label, labelZh, better }) => {
     const a = complete.map((s) => s.A![key])
     const b = complete.map((s) => s.B![key])
-    const d = b.map((x, i) => x - a[i]!)
+    const d = b.map((x, i) => x - a[i]!).filter(Number.isFinite)
     const sign = better === 'lower' ? -1 : 1
     return {
       key,

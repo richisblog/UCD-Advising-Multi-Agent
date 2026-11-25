@@ -45,6 +45,12 @@ export class Ledger {
     private readonly signal: AbortSignal,
   ) {}
 
+  /** actual/estimated input tokens of the last call with real usage (estimates drift with JSON and CJK) */
+  private ratio = 1
+  get inputRatio() {
+    return this.ratio
+  }
+
   get remainingTokens() {
     return this.budget.tokens - this.run.usage.tokens
   }
@@ -77,6 +83,7 @@ export class Ledger {
       if (this.signal.aborted) throw error
       response = { text: '', error: error instanceof Error ? error.message : String(error) }
     }
+    if (response.usage && inputEstimate > 0) this.ratio = Math.max(1, response.usage.input / inputEstimate)
     const estimated = !response.usage
     const usage = response.usage ?? { input: inputEstimate, output: estimateTokens(response.text) }
     const ms = Date.now() - started

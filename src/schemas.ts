@@ -8,6 +8,7 @@ const budgetPatch = z
     toolCalls: z.number().int().min(0).max(60),
     clarifications: z.number().int().min(0).max(12),
     specialistCalls: z.number().int().min(0).max(20),
+    checklist: z.boolean(),
   })
   .partial()
 

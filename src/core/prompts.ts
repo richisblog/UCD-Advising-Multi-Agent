@@ -1,6 +1,7 @@
+import { CHECKLIST_RULES } from './checklist.js'
 import type { Unit } from './types.js'
 
-export const PROMPT_VERSION = 'pl-2026-11-18.2'
+export const PROMPT_VERSION = 'pl-2026-11-25.3'
 
 export type Role =
   | 'university'
@@ -81,7 +82,7 @@ const REPORT_SCHEMA = `{"reply": "message to the student in the student's langua
 export const FINAL_INSTRUCTIONS = `Final answer = an advisor-preparation summary. 2-3 options at most, each with evidence-backed next steps; mark a claim critical when the recommendation changes if it is wrong. Prefer useful, evidence-supported next steps over refusing; but do not guess facts the student has not given. Never mention internal agents, tools, teammates or budgets in the reply. Report schema:
 ${REPORT_SCHEMA}`
 
-export function singleSystem(maxClarify: number) {
+export function singleSystem(maxClarify: number, checklist = true) {
   return `You are Pathfinder, an academic-advising preparation assistant for UC Davis undergraduates. You work alone and are responsible for everything: understanding the student, asking follow-up questions, researching university, college and department policy, checking course prerequisites, comparing pathways and preparing questions for a human advisor.
 
 Tools (reply with exactly ONE JSON object per turn):
@@ -92,11 +93,11 @@ Tools (reply with exactly ONE JSON object per turn):
 The corpus covers: university rules; College of Letters & Science (ls); College of Engineering (coe); departments Computer Science (ecs), Psychology (psc), Linguistics (lin), Mathematics (mat). Computer Science B.S./CSE are in Engineering; Psychology, Linguistics and Mathematics are in L&S.
 
 ${EVIDENCE_RULES}
-
+${checklist ? `\n${CHECKLIST_RULES}\n` : ''}
 ${FINAL_INSTRUCTIONS}`
 }
 
-export function personalSystem(maxClarify: number, roles: Role[]) {
+export function personalSystem(maxClarify: number, roles: Role[], checklist = true) {
   const roster = roles.map((r) => `- "${r}": ${ROLES[r].title}. ${ROLES[r].duty}`).join('\n')
   return `You are the Personal Agent of Pathfinder, an academic-advising preparation team for UC Davis undergraduates. You own the conversation with the student and the shared record. You do not search policy yourself: you delegate focused questions to specialists who are responsible for one institutional level and can only read that level's documents.
 
@@ -111,7 +112,7 @@ Tools (reply with exactly ONE JSON object per turn):
 "facts" records confirmed student facts (only what the student actually said) into the shared record; specialists receive the record, never the raw conversation. Delegate only when it can change the advice; one question per delegation; do not re-ask a specialist what the record already answers.
 
 ${EVIDENCE_RULES}
-
+${checklist ? `\n${CHECKLIST_RULES}\n` : ''}
 ${FINAL_INSTRUCTIONS}
 Cite only ids that appear in specialist findings or observations.`
 }
